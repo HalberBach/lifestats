@@ -1,0 +1,46 @@
+# Node.js
+/node_modules/
+npm-debug.log
+yarn-debug.log
+yarn-error.log
+
+# Next.js
+/.next/
+out/
+
+# Vue.js
+/dist/
+/public/
+
+# Umgebungsdateien
+.env
+.env.local
+.env.development
+.env.production
+.env.test
+
+# MacOS-Systemdateien
+.DS_Store
+
+# Logs
+*.log
+
+# Editor-Konfigurationsdateien
+.vscode/
+.idea/
+
+# Betriebssystem-spezifische Dateien
+Thumbs.db
+Desktop.ini
+
+# Docker
+docker-compose.override.yml
+.docker/
+
+# Jest / Vitest / Test-Cache
+/coverage/
+*.lcov
+*.nyc_output/
+
+# Weitere IDE-Dateien
+*.iml
