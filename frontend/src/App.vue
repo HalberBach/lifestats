@@ -1,11 +1,18 @@
 <script setup lang="ts">
 import {useColorMode} from "@vueuse/core";
+import { SidebarProvider, SidebarTrigger } from '@/components/ui/sidebar'
+import TheSidebar from "@/components/TheSidebar.vue";
 
 const mode = useColorMode()
 </script>
 
 <template>
-  <router-view></router-view>
+  <SidebarProvider >
+    <TheSidebar />
+    <main>
+      <slot />
+    </main>
+  </SidebarProvider>
 </template>
 
 <style scoped>

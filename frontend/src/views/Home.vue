@@ -3,8 +3,10 @@
 </script>
 
 <template>
-  <div>
-    dikfhjjdhfjdhfkh
+  <div id="main-container">
+    <div>
+      sdd
+    </div>
   </div>
 </template>
 
