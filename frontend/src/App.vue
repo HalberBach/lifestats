@@ -10,6 +10,7 @@ const mode = useColorMode()
   <SidebarProvider >
     <TheSidebar />
     <main>
+      <router-view />
       <slot />
     </main>
   </SidebarProvider>
