@@ -11,7 +11,7 @@ import HomeCharts from "@/components/home/HomeCharts.vue";
     </div>
     <div class="body grid grid-cols-1 md:grid-cols-[1fr_2fr_1fr] gap-4 mx-4 mb-4 mt-1">
       <div class="column rounded-lg border" >kdjfdjf</div>
-      <div class="column rounded-lg border p-2">
+      <div class="column rounded-lg border p-4">
         <HomeCharts />
       </div>
       <div class="column rounded-lg border">kdjfdjf</div>

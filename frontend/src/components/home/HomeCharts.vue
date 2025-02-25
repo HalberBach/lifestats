@@ -1,11 +1,14 @@
 <script setup lang="ts">
-
 import HomeChartsHeader from "@/components/home/HomeChartsHeader.vue";
+import HomeChartsDonut from "@/components/home/HomeChartsDonut.vue";
 </script>
 
 <template>
-  <div class="main-container m-2">
+  <div class="main-container">
     <HomeChartsHeader />
+    <div class="donutchart-container mt-16">
+      <HomeChartsDonut />
+    </div>
   </div>
 </template>
 
@@ -13,9 +16,13 @@ import HomeChartsHeader from "@/components/home/HomeChartsHeader.vue";
 .main-container {
   display: flex;
   flex-direction: column;
+  align-items: center;
 }
 
-.header {
-
+.donutchart-container {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  flex-grow: 1;
 }
 </style>

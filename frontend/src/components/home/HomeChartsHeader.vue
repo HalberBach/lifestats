@@ -9,10 +9,11 @@ import {
   SelectValue,
 } from '@/components/ui/select'
 import { Button } from "@/components/ui/button";
+import { Plus } from 'lucide-vue-next'
 </script>
 
 <template>
-  <div class="main-containerr">
+  <div class="homechartsheader-container">
     <Select>
       <SelectTrigger class="w-[200px]">
         <SelectValue placeholder="Select a fruit" />
@@ -32,15 +33,17 @@ import { Button } from "@/components/ui/button";
         </SelectGroup>
       </SelectContent>
     </Select>
-    <Button>Click me</Button>
+    <Button>
+      <Plus class="w-4 h-4 mr-2" /> Add
+    </Button>
   </div>
 </template>
 
 <style scoped>
-.main-containerr {
+.homechartsheader-container {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-
+  width: 100%;
 }
 </style>
