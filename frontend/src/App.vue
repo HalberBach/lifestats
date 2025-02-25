@@ -7,7 +7,7 @@ const mode = useColorMode()
 </script>
 
 <template>
-  <SidebarProvider >
+  <SidebarProvider :default-open="false">
     <TheSidebar />
     <main>
       <router-view />
@@ -17,6 +17,9 @@ const mode = useColorMode()
 </template>
 
 <style scoped>
+main {
+  width: 100%;
+}
 .logo {
   height: 6em;
   padding: 1.5em;
