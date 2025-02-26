@@ -11,12 +11,12 @@ const data = [
   { name: 'Jun', total: Math.floor(Math.random() * 2000) + 500, predicted: Math.floor(Math.random() * 2000) + 500 },
 ]
 
-const valueFormatter = (tick: number) => `Total:\n ${tick}h`
+const valueFormatter = (hours: number) => `${hours}h`
 </script>
 
 <template>
   <DonutChart
-      class="w-3/4 h-1/3"
+      class="w-3/4 h-1/2"
       index="name"
       :category="'total'"
       :data="data"
@@ -25,7 +25,3 @@ const valueFormatter = (tick: number) => `Total:\n ${tick}h`
       :value-formatter="valueFormatter"
   />
 </template>
-
-<style scoped>
-
-</style>

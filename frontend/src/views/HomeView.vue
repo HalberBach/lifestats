@@ -1,6 +1,7 @@
 <script setup lang="ts">
 
 import HomeCharts from "@/components/home/HomeCharts.vue";
+import HomeCategories from "@/components/home/HomeCategories.vue";
 </script>
 
 <template>
@@ -10,11 +11,13 @@ import HomeCharts from "@/components/home/HomeCharts.vue";
       <span class="text-4xl">Lifestats</span>
     </div>
     <div class="body grid grid-cols-1 md:grid-cols-[1fr_2fr_1fr] gap-4 mx-4 mb-4 mt-1">
-      <div class="column rounded-lg border" >kdjfdjf</div>
+      <div class="column rounded-lg border p-4">kdjfdjf</div>
       <div class="column rounded-lg border p-4">
         <HomeCharts />
       </div>
-      <div class="column rounded-lg border">kdjfdjf</div>
+      <div class="column rounded-lg border p-4">
+        <HomeCategories />
+      </div>
     </div>
   </div>
 </template>

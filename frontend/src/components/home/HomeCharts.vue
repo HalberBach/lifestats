@@ -6,7 +6,7 @@ import HomeChartsDonut from "@/components/home/HomeChartsDonut.vue";
 <template>
   <div class="main-container">
     <HomeChartsHeader />
-    <div class="donutchart-container mt-16">
+    <div class="donutchart-container mt-12">
       <HomeChartsDonut />
     </div>
   </div>
