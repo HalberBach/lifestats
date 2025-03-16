@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { Button } from '@/components/ui/button'
 import {
-  Dialog,
+  Dialog, DialogClose,
   DialogContent,
   DialogDescription,
   DialogFooter,
@@ -20,6 +20,16 @@ import {Label} from "@/components/ui/label";
 const showTimeError = ref(false);
 const timeError = ref<string>('More than 24 hours a day');
 const anyError = computed(() => showTimeError.value);
+const editDialogRef = ref();
+const addDialogRef = ref();
+
+function saveChanges() {
+  if (editDialogRef.value) {
+    editDialogRef.value.saveChanges();
+  } else if (addDialogRef.value) {
+    //TODO:
+  }
+}
 </script>
 
 <template>
@@ -37,7 +47,7 @@ const anyError = computed(() => showTimeError.value);
         </DialogDescription>
       </DialogHeader>
       <div>
-        <Tabs default-value="account" >
+        <Tabs default-value="edit" >
           <div class="flex items-center ">
             <TabsList>
               <TabsTrigger value="edit">
@@ -51,7 +61,7 @@ const anyError = computed(() => showTimeError.value);
           </div>
           <TabsContent value="edit">
             <ScrollArea class="h-[396px]">
-              <HomeCategoriesDialogEdit @toMuchTime="(show:boolean) => showTimeError = show"/>
+              <HomeCategoriesDialogEdit @toMuchTime="(show:boolean) => showTimeError = show" ref="editDialogRef"/>
             </ScrollArea>
           </TabsContent>
           <TabsContent value="change" >
@@ -60,12 +70,16 @@ const anyError = computed(() => showTimeError.value);
         </Tabs>
       </div>
       <DialogFooter class="mt-6">
-        <Button variant="destructive">
-          Cancel
-        </Button>
-        <Button :disabled="anyError">
-          Save changes
-        </Button>
+        <DialogClose>
+          <Button variant="destructive">
+            Cancel
+          </Button>
+        </DialogClose>
+        <DialogClose>
+          <Button :disabled="anyError" @click="saveChanges">
+            Save changes
+          </Button>
+        </DialogClose>
       </DialogFooter>
     </DialogContent>
   </Dialog>

@@ -13,7 +13,7 @@ interface FormattedCategory {
 const emit = defineEmits(['toMuchTime'])
 const store = useStore();
 const categoriesFormatted = ref(
-    store.categories.map(category => ({
+    store.categoriesForDate.map(category => ({
       id: category.id,
       name: category.name,
       color: category.color,
@@ -53,10 +53,23 @@ function addTime(category: FormattedCategory, minutes: number) {
 
   console.log('addedTime + ', category.formattedTime);
 }
-
 function minutesToHours(minutes: number) {
   return parseFloat((minutes / 60).toFixed(2));
 }
+function saveChanges() {
+  store.categoriesForDate = categoriesFormatted.value.map(category => ({
+    id: category.id,
+    name: category.name,
+    color: category.color,
+    time: category.formattedTime * 60
+  }));
+  store.saveCategoriesForDate();
+  console.log('saveChanges');
+}
+
+defineExpose({
+  saveChanges
+})
 </script>
 
 <template>
