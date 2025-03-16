@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import HomeChartsHeader from "@/components/home/HomeChartsHeader.vue";
-import HomeChartsDonut from "@/components/home/HomeChartsDonut.vue";
+import HomeChartsHeader from "@/components/home/HomeCharts/HomeChartsHeader.vue";
+import HomeChartsDonut from "@/components/home/HomeCharts/HomeChartsDonut.vue";
 </script>
 
 <template>

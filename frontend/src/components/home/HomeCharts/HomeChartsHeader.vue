@@ -8,12 +8,13 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
-import { Button } from "@/components/ui/button";
-import { Plus } from 'lucide-vue-next'
 </script>
 
 <template>
   <div class="homechartsheader-container">
+    <p class="text-3xl font-bold">
+      Total Time
+    </p>
     <Select>
       <SelectTrigger class="w-[200px]">
         <SelectValue placeholder="Select a fruit" />
@@ -33,9 +34,6 @@ import { Plus } from 'lucide-vue-next'
         </SelectGroup>
       </SelectContent>
     </Select>
-    <Button>
-      <Plus class="w-4 h-4 mr-2" /> Add
-    </Button>
   </div>
 </template>
 

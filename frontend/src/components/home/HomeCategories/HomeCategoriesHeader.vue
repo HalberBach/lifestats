@@ -8,8 +8,9 @@ import {
     CalendarDate,
   getLocalTimeZone,
 } from '@internationalized/date'
-import { Calendar as CalendarIcon } from 'lucide-vue-next'
+import { Calendar as CalendarIcon, Pencil} from 'lucide-vue-next'
 import { ref } from 'vue'
+import HomeCategoriesHeaderDialog from "@/components/home/HomeCategories/HomeCategoriesDialog.vue";
 
 const df = new DateFormatter('en-US', {
   dateStyle: 'long',
@@ -19,13 +20,13 @@ const value = ref(new CalendarDate(2024, 2, 26));
 </script>
 
 <template>
-  <div class="flex">
+  <div class="flex items-center justify-between w-full">
     <Popover>
       <PopoverTrigger as-child>
         <Button
             variant="outline"
             :class="cn(
-          'w-[260px] justify-start text-left font-normal',
+          'w-full mr-2 justify-start text-left font-normal',
           !value && 'text-muted-foreground',
         )"
         >
@@ -37,5 +38,6 @@ const value = ref(new CalendarDate(2024, 2, 26));
         <Calendar v-model="value" initial-focus />
       </PopoverContent>
     </Popover>
+    <HomeCategoriesHeaderDialog />
   </div>
 </template>

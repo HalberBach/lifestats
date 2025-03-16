@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import HomeCategoriesHeader from "@/components/home/HomeCategoriesHeader.vue";
-import HomeCategoriesContent from "@/components/home/HomeCategoriesContent.vue";
+import HomeCategoriesHeader from "@/components/home/HomeCategories/HomeCategoriesHeader.vue";
+import HomeCategoriesContent from "@/components/home/HomeCategories/HomeCategoriesContent.vue";
 </script>
 
 <template>

@@ -1,0 +1,23 @@
+<script setup lang="ts">
+import {useStore} from "@/store/store.ts";
+import {onMounted} from "vue";
+import {Input} from "@/components/ui/input";
+
+const store = useStore();
+
+onMounted(() => {
+  store.fetchCategories();
+});
+</script>
+
+<template>
+  <div class="mt-8 flex-col w-full">
+    <div class="flex items-center justify-between mb-5" v-for="category in store.categories" :key="category.id">
+      <div class="flex items-center">
+        <div class="w-4 h-4 rounded-full" :style="{ backgroundColor: category.color }"></div>
+        <p class="ml-4">{{ category.name }}</p>
+      </div>
+      <p class="font-bold">3:15h</p>
+    </div>
+  </div>
+</template>

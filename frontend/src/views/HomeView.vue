@@ -1,7 +1,7 @@
 <script setup lang="ts">
 
-import HomeCharts from "@/components/home/HomeCharts.vue";
-import HomeCategories from "@/components/home/HomeCategories.vue";
+import HomeCharts from "@/components/home/HomeCharts/HomeCharts.vue";
+import HomeCategories from "@/components/home/HomeCategories/HomeCategories.vue";
 </script>
 
 <template>
@@ -10,7 +10,7 @@ import HomeCategories from "@/components/home/HomeCategories.vue";
       <span class="text-4xl font-bold">Home</span>
       <span class="text-4xl">Lifestats</span>
     </div>
-    <div class="body grid grid-cols-1 md:grid-cols-[1fr_2fr_1fr] gap-4 mx-4 mb-4 mt-1">
+    <div class="body grid grid-cols-1 md:grid-cols-[1fr_2fr_1fr] gap-4 mx-4 mb-4 mt-2">
       <div class="column rounded-lg border p-4">kdjfdjf</div>
       <div class="column rounded-lg border p-4">
         <HomeCharts />
@@ -26,7 +26,6 @@ import HomeCategories from "@/components/home/HomeCategories.vue";
 .main-container {
   display: flex;
   flex-direction: column;
-  width: 100%;
   height: 100%;
 }
 
