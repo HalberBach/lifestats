@@ -14,7 +14,6 @@ import {Pencil} from "lucide-vue-next";
 import {computed, ref} from "vue";
 import HomeCategoriesDialogEdit from "@/components/home/HomeCategories/HomeCategoriesDialogEdit.vue";
 import HomeCategoriesDialogAdd from "@/components/home/HomeCategories/HomeCategoriesDialogAdd.vue";
-import {ScrollArea} from "@/components/ui/scroll-area";
 import {Label} from "@/components/ui/label";
 
 const showTimeError = ref(false);
@@ -60,9 +59,7 @@ function saveChanges() {
             <Label v-if="showTimeError" class="ml-4 text-red-500">{{ timeError }}</Label>
           </div>
           <TabsContent value="edit">
-            <ScrollArea class="h-[396px]">
-              <HomeCategoriesDialogEdit @toMuchTime="(show:boolean) => showTimeError = show" ref="editDialogRef"/>
-            </ScrollArea>
+            <HomeCategoriesDialogEdit @toMuchTime="(show:boolean) => showTimeError = show" ref="editDialogRef"/>
           </TabsContent>
           <TabsContent value="change" >
             <HomeCategoriesDialogAdd />

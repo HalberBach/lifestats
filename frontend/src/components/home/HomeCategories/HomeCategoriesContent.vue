@@ -2,6 +2,9 @@
 import {useStore} from "@/store/store.ts";
 const store = useStore();
 
+function minutesToHours(minutes: number) {
+  return parseFloat((minutes / 60).toFixed(2));
+}
 </script>
 
 <template>
@@ -11,7 +14,7 @@ const store = useStore();
         <div class="w-4 h-4 rounded-full" :style="{ backgroundColor: category.color }"></div>
         <p class="ml-4">{{ category.name }}</p>
       </div>
-      <p class="font-bold">3:15h</p>
+      <p class="font-bold">{{ minutesToHours(category.time) }}h</p>
     </div>
   </div>
 </template>

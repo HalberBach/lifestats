@@ -5,10 +5,9 @@ export interface Category {
 }
 
 export interface CategoryEntry {
+    // category-id
     id: number
     name: string
     color: string
-    categoryId: number
-    date: string
     time: number
 }

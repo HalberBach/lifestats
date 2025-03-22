@@ -1,43 +1,28 @@
 <script setup lang="ts">
-import {cn} from "@/lib/utils.ts";
-import { Button } from '@/components/ui/button'
-import { Calendar } from '@/components/ui/calendar'
-import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
 import {
+  type CalendarDate,
   DateFormatter,
-    CalendarDate,
-  getLocalTimeZone,
 } from '@internationalized/date'
-import { Calendar as CalendarIcon, Pencil} from 'lucide-vue-next'
 import { ref } from 'vue'
 import HomeCategoriesHeaderDialog from "@/components/home/HomeCategories/HomeCategoriesDialog.vue";
+import {useStore} from "@/store/store.ts";
+import TheDatepicker from "@/components/TheDatepicker.vue";
 
 const df = new DateFormatter('en-US', {
   dateStyle: 'long',
 })
 
-const value = ref(new CalendarDate(2024, 2, 26));
+const store = useStore();
+const selectedDate = ref<CalendarDate>(store.currentDate);
+
+function test() {
+  console.log('test');
+}
 </script>
 
 <template>
   <div class="flex items-center justify-between w-full">
-    <Popover>
-      <PopoverTrigger as-child>
-        <Button
-            variant="outline"
-            :class="cn(
-          'w-full mr-2 justify-start text-left font-normal',
-          !value && 'text-muted-foreground',
-        )"
-        >
-          <CalendarIcon class="mr-2 h-4 w-4" />
-          {{ value ? df.format(value.toDate(getLocalTimeZone())) : "Pick a date" }}
-        </Button>
-      </PopoverTrigger>
-      <PopoverContent class="w-auto p-0">
-        <Calendar v-model="value" initial-focus />
-      </PopoverContent>
-    </Popover>
+    <TheDatepicker v-model="selectedDate" @input="store.changeSelectedDate"/>
     <HomeCategoriesHeaderDialog />
   </div>
 </template>
