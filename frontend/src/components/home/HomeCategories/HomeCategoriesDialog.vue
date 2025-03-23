@@ -15,10 +15,14 @@ import {computed, ref} from "vue";
 import HomeCategoriesDialogEdit from "@/components/home/HomeCategories/HomeCategoriesDialogEdit.vue";
 import HomeCategoriesDialogAdd from "@/components/home/HomeCategories/HomeCategoriesDialogAdd.vue";
 import {Label} from "@/components/ui/label";
+import {Tooltip, TooltipContent, TooltipProvider, TooltipTrigger} from "@/components/ui/tooltip";
 
-const showTimeError = ref(false);
+const showTimeError = ref<boolean>(false);
+const showCategoryError = ref<boolean>(false);
+const disableSaveButton = ref<boolean>(false);
 const timeError = ref<string>('More than 24 hours a day');
-const anyError = computed(() => showTimeError.value);
+const categoryError = ref<string>('Category name is too long');
+const anyError = computed(() => showTimeError.value || showCategoryError.value || disableSaveButton.value);
 const editDialogRef = ref();
 const addDialogRef = ref();
 
@@ -26,7 +30,7 @@ function saveChanges() {
   if (editDialogRef.value) {
     editDialogRef.value.saveChanges();
   } else if (addDialogRef.value) {
-    //TODO:
+    addDialogRef.value.saveChanges();
   }
 }
 </script>
@@ -34,11 +38,20 @@ function saveChanges() {
 <template>
   <Dialog>
     <DialogTrigger>
-      <Button class="w-[40px]" variant="ghost">
-        <Pencil/>
-      </Button>
+      <TooltipProvider>
+        <Tooltip>
+          <TooltipTrigger as-child>
+            <Button class="w-[40px]" variant="ghost">
+              <Pencil/>
+            </Button>
+          </TooltipTrigger>
+          <TooltipContent >
+            <p>Edit Mode</p>
+          </TooltipContent>
+        </Tooltip>
+      </TooltipProvider>
     </DialogTrigger>
-    <DialogContent >
+    <DialogContent class="h-[700px]">
       <DialogHeader>
         <DialogTitle>Edit</DialogTitle>
         <DialogDescription>
@@ -47,7 +60,7 @@ function saveChanges() {
       </DialogHeader>
       <div>
         <Tabs default-value="edit" >
-          <div class="flex items-center ">
+          <div class="flex items-center mb-4">
             <TabsList>
               <TabsTrigger value="edit">
                 Edit Time
@@ -57,12 +70,16 @@ function saveChanges() {
               </TabsTrigger>
             </TabsList>
             <Label v-if="showTimeError" class="ml-4 text-red-500">{{ timeError }}</Label>
+            <Label v-if="showCategoryError" class="ml-4 text-red-500">{{ categoryError }}</Label>
           </div>
           <TabsContent value="edit">
             <HomeCategoriesDialogEdit @toMuchTime="(show:boolean) => showTimeError = show" ref="editDialogRef"/>
           </TabsContent>
-          <TabsContent value="change" >
-            <HomeCategoriesDialogAdd />
+          <TabsContent value="change">
+            <HomeCategoriesDialogAdd @error="(show:boolean) => showCategoryError = show"
+                                     @errorMessage="(message:string) => categoryError = message"
+                                     @editMode="(show:boolean) => disableSaveButton = show"
+                                     ref="addDialogRef"/>
           </TabsContent>
         </Tabs>
       </div>

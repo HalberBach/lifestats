@@ -72,7 +72,7 @@ function getCategoriesForDate() {
   });
 }
 async function saveChanges() {
-  await store.saveCategoriesForDate(selectedDate.value, categoriesFormatted.value.map(category => ({
+  await store.saveCategoriesEntriesForDate(selectedDate.value, categoriesFormatted.value.map(category => ({
     id: category.id,
     name: category.name,
     color: category.color,
@@ -87,10 +87,10 @@ defineExpose({
 </script>
 
 <template>
-  <div class="mt-8 w-[180px]">
+  <div class="w-[180px]">
     <TheDatepicker v-model="selectedDate" @input="getCategoriesForDate"/>
   </div>
-  <ScrollArea class="h-[396px]">
+  <ScrollArea class="h-[396px] mt-3">
     <div v-for="category in categoriesFormatted" :key="category.id"
          class="flex items-center gap-4 pt-3">
       <div class="w-3 h-3 rounded-full" :style="{ backgroundColor: category.color }"></div>
