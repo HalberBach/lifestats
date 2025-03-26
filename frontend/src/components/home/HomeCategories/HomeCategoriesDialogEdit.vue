@@ -7,6 +7,7 @@ import {ScrollArea} from "@/components/ui/scroll-area";
 import TheDatepicker from "@/components/TheDatepicker.vue";
 import {CalendarDate} from "@internationalized/date";
 import type {CategoryEntry} from "@/types";
+import {minutesToHours} from "@/utils/utils.ts";
 
 interface FormattedCategory {
   id: number,
@@ -56,9 +57,6 @@ function addTime(category: FormattedCategory, minutes: number) {
     category.formattedTime = newTime;
   }
   console.log('addedTime + ', category.formattedTime);
-}
-function minutesToHours(minutes: number) {
-  return parseFloat((minutes / 60).toFixed(2));
 }
 function getCategoriesForDate() {
   store.getCategoriesForDate(selectedDate.value).then(values => {

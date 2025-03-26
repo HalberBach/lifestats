@@ -1,10 +1,7 @@
 <script setup lang="ts">
 import {useStore} from "@/store/store.ts";
+import {minutesToHours} from "../../../utils/utils.ts";
 const store = useStore();
-
-function minutesToHours(minutes: number) {
-  return parseFloat((minutes / 60).toFixed(2));
-}
 </script>
 
 <template>

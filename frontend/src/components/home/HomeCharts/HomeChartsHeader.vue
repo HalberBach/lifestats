@@ -8,6 +8,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
+const selectValue = defineModel<string>()
 </script>
 
 <template>
@@ -15,9 +16,9 @@ import {
     <p class="text-3xl font-bold">
       Total Time
     </p>
-    <Select>
+    <Select v-model="selectValue">
       <SelectTrigger class="w-[200px]">
-        <SelectValue placeholder="Select a fruit" />
+        <SelectValue :placeholder="selectValue"/>
       </SelectTrigger>
       <SelectContent>
         <SelectGroup>
