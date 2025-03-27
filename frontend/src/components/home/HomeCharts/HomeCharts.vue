@@ -5,6 +5,7 @@ import {useStore} from "@/store/store.ts";
 import { ref, watch} from "vue";
 import type {CategoryEntry} from "@/types";
 import {minutesToHours} from "@/utils/utils.ts";
+
 interface DonutData {
   name: string
   total: number
@@ -66,7 +67,7 @@ refreshDonutData(store.categoriesForDate);
 <template>
   <div class="main-container">
     <HomeChartsHeader v-model="selectedFilter"/>
-    <div class="donutchart-container mt-12">
+    <div class="donutchart-container mt-20">
       <HomeChartsDonut :entries="donutData" :colors="colors"/>
     </div>
   </div>
