@@ -1,7 +1,7 @@
 <script setup lang="ts">
-
 import HomeCharts from "@/components/home/HomeCharts/HomeCharts.vue";
 import HomeCategories from "@/components/home/HomeCategories/HomeCategories.vue";
+import HomeNews from "@/components/home/HomeNews/HomeNews.vue";
 </script>
 
 <template>
@@ -10,12 +10,14 @@ import HomeCategories from "@/components/home/HomeCategories/HomeCategories.vue"
       <span class="text-4xl font-bold">Home</span>
       <span class="text-4xl">Lifestats</span>
     </div>
-    <div class="body grid grid-cols-1 md:grid-cols-[1fr_2fr_1fr] gap-4 mx-4 mb-4 mt-2">
-      <div class="column rounded-lg border p-4">kdjfdjf</div>
+    <div class="body md:grid md:grid-cols-[1fr_2fr_1fr] gap-4 mx-4 mb-4 mt-2 ">
+      <div class="column rounded-lg border p-4">
+        <HomeNews />
+      </div>
       <div class="column rounded-lg border p-4">
         <HomeCharts />
       </div>
-      <div class="column rounded-lg border p-4">
+      <div class="column rounded-lg border p-4 ">
         <HomeCategories />
       </div>
     </div>
