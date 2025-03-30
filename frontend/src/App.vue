@@ -1,14 +1,16 @@
 <script setup lang="ts">
 import {useColorMode} from "@vueuse/core";
-import { SidebarProvider, SidebarTrigger } from '@/components/ui/sidebar'
+import { SidebarProvider } from '@/components/ui/sidebar'
 import TheSidebar from "@/components/TheSidebar.vue";
+import {useRoute} from "vue-router";
 
-const mode = useColorMode()
+const color = useColorMode();
+const route = useRoute();
 </script>
 
 <template>
   <SidebarProvider :default-open="false">
-    <TheSidebar />
+    <TheSidebar v-if="!route.meta.publicPage"/>
     <main>
       <router-view />
       <slot />

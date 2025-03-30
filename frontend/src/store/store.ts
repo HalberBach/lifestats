@@ -4,6 +4,7 @@ import type {Category, CategoryEntry} from "@/types";
 import {CalendarDate} from "@internationalized/date";
 
 export const useStore = defineStore('store', () => {
+    const isLoggedIn = ref<boolean>(true);
 
     const currentDate = ref<CalendarDate>(new CalendarDate(2025, 3, 3));
     const categoriesForDate = ref<CategoryEntry[]>([
@@ -100,6 +101,7 @@ export const useStore = defineStore('store', () => {
         categories,
         last30Days,
         totalTime,
+        isLoggedIn,
         saveCategoriesEntriesForDate,
         getCategoriesForDate,
         changeSelectedDate,
