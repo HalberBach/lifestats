@@ -44,3 +44,29 @@ docker-compose.override.yml
 
 # Weitere IDE-Dateien
 *.iml
+
+# Next.js Build-Output
+.next/
+.vercel/
+out/
+
+# npm / pnpm / yarn Caches
+.npm/
+.pnp/
+.pnp.js
+
+# Lockfiles (nur falls du kein yarn/pnpm nutzt)
+yarn.lock
+pnpm-lock.yaml
+
+# Next.js TypeScript Build-Cache
+.next/cache/
+
+.supabase/
+
+# TypeScript
+*.tsbuildinfo
+
+# Test-Runner-Caches
+/test-results/
+.vitest/
