@@ -1,24 +1,27 @@
 <script setup lang="ts">
-import HelloWorld from './components/HelloWorld.vue'
-import { Button } from '@/components/ui/button'
 import {useColorMode} from "@vueuse/core";
+import { SidebarProvider } from '@/components/ui/sidebar'
+import TheSidebar from "@/components/TheSidebar.vue";
+import {useRoute} from "vue-router";
 
-const mode = useColorMode()
+const color = useColorMode();
+const route = useRoute();
 </script>
 
 <template>
-  <div>
-    <a href="https://vite.dev" target="_blank">
-      <img src="/vite.svg" class="logo" alt="Vite logo" />
-    </a>
-    <a href="https://vuejs.org/" target="_blank">
-      <img src="./assets/vue.svg" class="logo vue" alt="Vue logo" />
-    </a>
-  </div>
-  <HelloWorld msg="Vite + Vue" />
+  <SidebarProvider :default-open="false">
+    <TheSidebar v-if="!route.meta.publicPage"/>
+    <main>
+      <router-view />
+      <slot />
+    </main>
+  </SidebarProvider>
 </template>
 
 <style scoped>
+main {
+  width: 100%;
+}
 .logo {
   height: 6em;
   padding: 1.5em;
