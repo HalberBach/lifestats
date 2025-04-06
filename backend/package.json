@@ -1,23 +1,17 @@
 {
+  "name": "backend",
+  "private": true,
+  "version": "0.0.0",
+  "description": "backend",
+  "main": "index.js",
   "scripts": {
-    "dev": "next dev",
-    "build": "next build",
-    "start": "next start",
-    "test": "vitest"
+    "devStart": "nodemon server.js"
   },
   "dependencies": {
-    "@supabase/supabase-js": "^2.48.1",
-    "next": "^15.2.4",
-    "react": "^19.1.0",
-    "react-dom": "^19.1.0"
+    "cors": "^2.8.5",
+    "express": "^5.1.0"
   },
   "devDependencies": {
-    "@types/jest": "^29.5.14",
-    "@types/node": "^22.13.14",
-    "@types/react": "19.1.0",
-    "@vitest/ui": "^3.1.1",
-    "eslint": "^9.23.0",
-    "typescript": "^5.8.2",
-    "vitest": "^3.1.1"
+    "nodemon": "^3.1.9"
   }
 }
