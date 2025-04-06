@@ -1,16 +1,15 @@
-import express, { Request, Response } from 'express';
+import express from 'express';
 import cors from 'cors';
+import categoryRouter from './src/controllers/category';
 
-const app = express();
+export const app = express();
 const PORT = 3000;
 
 // CORS Middleware aktivieren
 app.use(cors());
 
-// GET-Route definieren
-app.get('/api/test', (req: Request, res: Response) => {
-    res.json({ message: 'Hello World' });
-});
+// Use the category router
+app.use(categoryRouter);
 
 // Server starten
 app.listen(PORT, () => {
