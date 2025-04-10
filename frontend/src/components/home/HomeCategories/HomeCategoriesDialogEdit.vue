@@ -58,15 +58,14 @@ function addTime(category: FormattedCategory, minutes: number) {
   }
   console.log('addedTime + ', category.formattedTime);
 }
-function getCategoriesForDate() {
-  store.getCategoriesForDate(selectedDate.value).then(values => {
+async function getCategoriesForDate() {
+  await store.getCategoryEntriesForDate(selectedDate.value).then(values => {
     categoriesFormatted.value = values.map(category => ({
       id: category.id,
       name: category.name,
       color: category.color,
       formattedTime: minutesToHours(category.time)
     })) as FormattedCategory[];
-    console.log('get Categories for Date');
   });
 }
 async function saveChanges() {
