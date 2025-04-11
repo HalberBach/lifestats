@@ -15,14 +15,15 @@ const df = new DateFormatter('en-US', {
 const store = useStore();
 const selectedDate = ref<CalendarDate>(store.currentDate);
 
-function test() {
-  console.log('test');
+async function changeSelectedDate() {
+  await store.changeSelectedDate(selectedDate.value);
+  console.log('selectedDate', selectedDate.value);
 }
 </script>
 
 <template>
   <div class="flex items-center justify-between w-full">
-    <TheDatepicker v-model="selectedDate" @input="store.changeSelectedDate"/>
+    <TheDatepicker v-model="selectedDate" @input="changeSelectedDate"/>
     <HomeCategoriesHeaderDialog />
   </div>
 </template>

@@ -17,7 +17,7 @@ const donutData = ref<DonutData[]>([
   { name: 'Nothing', total: 24 }
 ])
 const colors = ref<string[]>(['#264653'])
-const selectedFilter = ref<string>('Today');
+const selectedFilter = ref<string>('today');
 const hasError = ref<boolean>(false);
 
 function refreshDonutData(newEntries: CategoryEntry[]) {
@@ -33,15 +33,15 @@ function refreshDonutData(newEntries: CategoryEntry[]) {
   }
   console.log('Refreshed Donut Data')
 }
-function refreshData() {
+async function refreshData() {
   if (selectedFilter.value === 'today') {
     refreshDonutData(store.categoriesForDate);
     console.log('today')
   } else if (selectedFilter.value === '30 Days') {
-    refreshDonutData(store.last30Days);
+    refreshDonutData(await store.getLast30Days())
     console.log('30 days')
   } else if (selectedFilter.value === 'total') {
-    refreshDonutData(store.totalTime);
+    refreshDonutData(await store.getTotal());
     console.log('total')
   } else {
     hasError.value = true;

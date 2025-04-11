@@ -52,7 +52,7 @@ export function useApi() {
         }
     }
 
-    async function getLast30Days(): Promise<Date[]> {
+    async function getLast30Days(): Promise<CategoryEntry[]> {
         try {
             const response = await axios.get('http://localhost:3000/api/categoryEntries/last30Days', {
                 headers: {
@@ -69,7 +69,7 @@ export function useApi() {
         }
     }
 
-    async function getTotalTime(): Promise<number> {
+    async function getTotalTime(): Promise<CategoryEntry[]> {
         try {
             const response = await axios.get('http://localhost:3000/api/categoryEntries/totalTime', {
                 headers: {

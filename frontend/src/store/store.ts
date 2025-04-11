@@ -38,32 +38,6 @@ export const useStore = defineStore('store', () => {
         { id: 10, name: 'Kategorie 10', time: 21, color: '#F4A261' },
         { id: 11, name: 'Kategorie 11', time: 69, color: '#E76F51' },
     ]);
-    const last30Days = ref<CategoryEntry[]>([
-        { id: 1, name: 'Kategorie 1', time: 120, color: '#264653'},
-        { id: 2, name: 'Kategorie 2', time: 230, color: '#2A9D8F' },
-        { id: 3, name: 'Kategorie 3', time: 33, color: '#E9C46A' },
-        { id: 4, name: 'Kategorie 4', time: 367, color: '#F4A261' },
-        { id: 5, name: 'Kategorie 5', time: 89, color: '#E76F51' },
-        { id: 6, name: 'Kategorie 6', time: 450, color: '#D4A5A5' },
-        { id: 7, name: 'Kategorie 7', time: 120, color: '#264653' },
-        { id: 8, name: 'Kategorie 8', time: 65, color: '#2A9D8F' },
-        { id: 9, name: 'Kategorie 9', time: 450, color: '#E9C46A' },
-        { id: 10, name: 'Kategorie 10', time: 21, color: '#F4A261' },
-        { id: 11, name: 'Kategorie 11', time: 69, color: '#E76F51' },
-    ]);
-    const totalTime = ref<CategoryEntry[]>([
-        { id: 1, name: 'Kategorie 1', time: 120, color: '#264653'},
-        { id: 2, name: 'Kategorie 2', time: 2309, color: '#2A9D8F' },
-        { id: 3, name: 'Kategorie 3', time: 330, color: '#E9C46A' },
-        { id: 4, name: 'Kategorie 4', time: 367, color: '#F4A261' },
-        { id: 5, name: 'Kategorie 5', time: 455, color: '#E76F51' },
-        { id: 6, name: 'Kategorie 6', time: 1000, color: '#D4A5A5' },
-        { id: 7, name: 'Kategorie 7', time: 120, color: '#264653' },
-        { id: 8, name: 'Kategorie 8', time: 65, color: '#2A9D8F' },
-        { id: 9, name: 'Kategorie 9', time: 450, color: '#E9C46A' },
-        { id: 10, name: 'Kategorie 10', time: 221, color: '#F4A261' },
-        { id: 11, name: 'Kategorie 11', time: 69, color: '#E76F51' },
-    ]);
 
     async function updateCategories(newCategories: Category[]) {
         return api.updateCategories(newCategories).then(() => {
@@ -94,19 +68,19 @@ export const useStore = defineStore('store', () => {
         })
     }
 
-    async function setLast30Days()  {
+    async function getLast30Days()  {
         return api.getLast30Days().then((entries) => {
-            last30Days.value = entries;
-            console.log('setLast30Days');
+            console.log('getLast30Days');
+            return entries;
         }).catch(() => {
             // TODO: Fehlerbehandlung
         })
     }
 
-    async function setTotal()  {
+    async function getTotal()  {
         return api.getTotalTime().then((entries) => {
-            totalTime.value = entries;
-            console.log('setTotal');
+            console.log('getTotal');
+            return entries;
         }).catch(() => {
             // TODO: Fehlerbehandlung
         })
@@ -120,12 +94,12 @@ export const useStore = defineStore('store', () => {
 
     return { categoriesForDate: categoryEntriesForDate,
         categories,
-        last30Days,
-        totalTime,
         isLoggedIn,
         saveCategoriesEntriesForDate,
         getCategoryEntriesForDate,
         changeSelectedDate,
         updateCategories,
+        getLast30Days,
+        getTotal,
         currentDate };
 });
