@@ -1,13 +1,9 @@
 import express from 'express';
-import cors from 'cors';
 import categoryRouter from './src/controllers/category';
 import categoryEntriesRouter from './src/controllers/categoryEntries';
 
 export const app = express();
-const PORT = 3000;
-
-// CORS Middleware aktivieren
-app.use(cors());
+const PORT = 8080;
 
 // Use the category router
 app.use(express.json());

@@ -4,7 +4,7 @@ import axios from "axios";
 export function useApi() {
     async function updateCategories(categories: Category[]) {
         try {
-            const response = await axios.put('http://localhost:3000/api/categories', categories, {
+            const response = await axios.put('/api/categories', categories, {
                 headers: {
                     'Content-Type': 'application/json',
                 },
@@ -21,7 +21,7 @@ export function useApi() {
 
     async function getCategoryEntriesForDate(date: Date): Promise<CategoryEntry[]> {
         try {
-            const response = await axios.get(`http://localhost:3000/api/categoryEntries`, {
+            const response = await axios.get(`/api/categoryEntries`, {
                 params: { date },
             })
             if (!response.status === 200) {
@@ -37,7 +37,7 @@ export function useApi() {
     async function saveCategoryEntriesForDate(date: Date, categories: CategoryEntry[]) {
         try {
             const payload = { date, categories };
-            const response = await axios.put(`http://localhost:3000/api/categoryEntries`, payload, {
+            const response = await axios.put(`/api/categoryEntries`, payload, {
                 headers: {
                     'Content-Type': 'application/json',
                 },
@@ -54,7 +54,7 @@ export function useApi() {
 
     async function getLast30Days(): Promise<CategoryEntry[]> {
         try {
-            const response = await axios.get('http://localhost:3000/api/categoryEntries/last30Days', {
+            const response = await axios.get('/api/categoryEntries/last30Days', {
                 headers: {
                     'Content-Type': 'application/json',
                 },
@@ -71,7 +71,7 @@ export function useApi() {
 
     async function getTotalTime(): Promise<CategoryEntry[]> {
         try {
-            const response = await axios.get('http://localhost:3000/api/categoryEntries/totalTime', {
+            const response = await axios.get('/api/categoryEntries/totalTime', {
                 headers: {
                     'Content-Type': 'application/json',
                 },
