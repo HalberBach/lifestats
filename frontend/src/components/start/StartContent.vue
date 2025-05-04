@@ -21,7 +21,7 @@ const router = useRouter()
         <img
             src="../../assets/preview.png"
             alt="Preview"
-            class="border rounded-lg shadow-lg shadow-gray-400" />
+            class="border rounded-lg shadow-lg shadow-gray-600" />
       </AspectRatio>
     </div>
   </div>
