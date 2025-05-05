@@ -5,7 +5,6 @@ import {Button} from "@/components/ui/button";
 import {useRouter} from "vue-router";
 
 const router = useRouter()
-
 </script>
 
 <template>
