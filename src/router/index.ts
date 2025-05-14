@@ -5,7 +5,7 @@ import DataView from "@/views/DataView.vue";
 import LoginView from "@/views/LoginView.vue";
 import RegisterView from "@/views/RegisterView.vue";
 import StartView from "@/views/StartView.vue";
-import {useStore} from "@/store/store.ts";
+import {useUserStore} from "@/store/userstore.ts";
 
 const routes = [
     {
@@ -56,8 +56,8 @@ const router = createRouter({
 });
 
 router.beforeEach(async (to) => {
-    const store = useStore();
-    if (!store.isLoggedIn && !to.meta.publicPage) {
+    const userStore = useUserStore();
+    if (!userStore.isLoggedIn && !to.meta.publicPage) {
         return '/login'
     }
 })

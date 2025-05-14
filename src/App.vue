@@ -3,9 +3,26 @@ import {useColorMode} from "@vueuse/core";
 import { SidebarProvider } from '@/components/ui/sidebar'
 import TheSidebar from "@/components/TheSidebar.vue";
 import {useRoute} from "vue-router";
+import {supabase} from "@/lib/supabaseClient.ts";
+import {onMounted, ref} from "vue";
+import {useUserStore} from "@/store/userstore.ts";
 
 const color = useColorMode();
 const route = useRoute();
+const userStore = useUserStore();
+const loading = ref(false);
+
+onMounted(() => {
+  supabase.auth.onAuthStateChange((_, session) => {
+    loading.value = true
+    if (session) {
+      userStore.user = session.user
+    } else {
+      userStore.user = null
+    }
+    loading.value = false
+  })
+})
 </script>
 
 <template>

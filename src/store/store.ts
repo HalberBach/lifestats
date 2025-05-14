@@ -6,7 +6,6 @@ import { useApi } from "@/api/api.ts";
 
 export const useStore = defineStore('store', () => {
     const api = useApi();
-    const isLoggedIn = ref<boolean>(true);
 
     const currentDate = ref<CalendarDate>(new CalendarDate(2025, 3, 3));
     const categories = ref<Category[]>(
@@ -94,7 +93,6 @@ export const useStore = defineStore('store', () => {
 
     return { categoriesForDate: categoryEntriesForDate,
         categories,
-        isLoggedIn,
         saveCategoriesEntriesForDate,
         getCategoryEntriesForDate,
         changeSelectedDate,
