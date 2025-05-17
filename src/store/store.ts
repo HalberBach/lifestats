@@ -100,4 +100,6 @@ export const useStore = defineStore('store', () => {
         getLast30Days,
         getTotal,
         currentDate };
+}, {
+    persist: true
 });

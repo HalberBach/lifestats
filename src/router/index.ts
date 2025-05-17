@@ -6,6 +6,9 @@ import LoginView from "@/views/LoginView.vue";
 import RegisterView from "@/views/RegisterView.vue";
 import StartView from "@/views/StartView.vue";
 import {useUserStore} from "@/store/userstore.ts";
+import {supabase} from "@/lib/supabaseClient.ts";
+
+let authInitialized = false;
 
 const routes = [
     {
@@ -57,6 +60,13 @@ const router = createRouter({
 
 router.beforeEach(async (to) => {
     const userStore = useUserStore();
+
+    if (!authInitialized) {
+        const { data: { session } } = await supabase.auth.getSession();
+        userStore.user = session?.user ?? null;
+        authInitialized = true;
+    }
+
     if (!userStore.user && !to.meta.publicPage) {
         return '/login'
     }
