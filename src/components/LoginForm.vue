@@ -10,8 +10,28 @@ import {
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import {useRouter} from "vue-router";
+import {supabase} from "@/lib/supabaseClient.ts";
+import {ref} from "vue";
+import {useUserStore} from "@/store/userstore.ts";
 
 const router = useRouter()
+const userStore = useUserStore()
+const email = ref<string>()
+const password = ref<string>()
+
+async function login() {
+  let { data, error } = await supabase.auth.signInWithPassword({
+    email: email.value,
+    password: password.value
+  })
+  if (!error && data) {
+    console.log("login success")
+    userStore.user = data.user
+    await router.push('/home')
+  } else {
+    console.log("login error", error)
+  }
+}
 </script>
 
 <template>
@@ -26,7 +46,7 @@ const router = useRouter()
         </CardDescription>
       </CardHeader>
       <CardContent>
-        <form>
+        <form @submit.prevent="login">
           <div class="grid gap-6">
             <div class="flex flex-col gap-4">
               <Button variant="outline" class="w-full">
@@ -50,6 +70,7 @@ const router = useRouter()
                 <Input
                   id="email"
                   type="email"
+                  v-model="email"
                   placeholder="m@example.com"
                   required
                 />
@@ -64,9 +85,9 @@ const router = useRouter()
                     Forgot your password?
                   </a>
                 </div>
-                <Input id="password" type="password" required />
+                <Input id="password" type="password" v-model="password" required />
               </div>
-              <Button type="submit" class="w-full">
+              <Button type="submit" class="w-full" >
                 Login
               </Button>
             </div>

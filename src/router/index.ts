@@ -57,7 +57,7 @@ const router = createRouter({
 
 router.beforeEach(async (to) => {
     const userStore = useUserStore();
-    if (!userStore.isLoggedIn && !to.meta.publicPage) {
+    if (!userStore.user && !to.meta.publicPage) {
         return '/login'
     }
 })
