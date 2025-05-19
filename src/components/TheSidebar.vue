@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import {Home, ChartArea, Database, Settings } from "lucide-vue-next"
+import {Home, ChartArea, Database, Settings, LogOut } from "lucide-vue-next"
 import {
   Sidebar,
   SidebarContent,
@@ -10,6 +10,8 @@ import {
   SidebarMenuButton,
   SidebarMenuItem, SidebarTrigger,
 } from "@/components/ui/sidebar"
+import {supabase} from "@/lib/supabaseClient.ts";
+import router from "@/router";
 
 // Menu items.
 const items = [
@@ -34,6 +36,16 @@ const items = [
     icon: Settings,
   },
 ];
+
+async function logout() {
+  let { error } = await supabase.auth.signOut()
+  if (error) {
+    console.error("Logout error", error)
+  } else {
+    router.push("/login")
+    console.log("Logout success")
+  }
+}
 </script>
 
 <template>
@@ -51,6 +63,14 @@ const items = [
                 <a :href="item.url">
                   <component :is="item.icon" />
                   <span>{{item.title}}</span>
+                </a>
+              </SidebarMenuButton>
+            </SidebarMenuItem>
+            <SidebarMenuItem class="mt-4">
+              <SidebarMenuButton asChild @click="logout">
+                <a>
+                  <component :is="LogOut" />
+                  <span>Log Out</span>
                 </a>
               </SidebarMenuButton>
             </SidebarMenuItem>
