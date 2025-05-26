@@ -4,8 +4,8 @@ import {Button} from "@/components/ui/button";
 import {ScrollArea} from "@/components/ui/scroll-area";
 import {useStore} from "@/store/store.ts";
 import {Plus, Pencil, Trash, Check} from "lucide-vue-next";
-import {computed, ref, watch} from "vue";
-import type {Category} from "@/types";
+import {computed, onMounted, ref, watch} from "vue";
+import {getAllCategories} from "@/lib/api.ts";
 
 interface FormattedCategory {
   id: number,
@@ -15,12 +15,8 @@ interface FormattedCategory {
 }
 
 const store = useStore();
-const categories = ref<FormattedCategory[]>(store.categories.map(category => ({
-  id: category.id,
-  name: category.name,
-  color: category.color,
-  showInputEl: false
-})).sort((a, b) => a.id - b.id).reverse());
+const categories = ref<FormattedCategory[]>([]);
+let newCategoriesIdCounter = 0;
 
 const emit = defineEmits(['error', 'errorMessage', 'editMode'])
 
@@ -43,17 +39,13 @@ function toggleInputEl(category: FormattedCategory) {
   category.showInputEl = !category.showInputEl;
 }
 async function saveChanges() {
-  await store.updateCategories(categories.value.map(category => ({
-    id: category.id,
-    name: category.name,
-    color: category.color,
-  })) as Category[]);
-  console.log('saveChanges');
+  // TODO: Implement save changes logic
 }
 function addCategory() {
   console.log('addCategory');
+  ++newCategoriesIdCounter;
   categories.value.unshift({
-    id: categories.value[0] ? categories.value[0].id + 1 : 0,
+    id: newCategoriesIdCounter,
     name: 'New Category',
     color: '#000000',
     showInputEl: true
@@ -66,6 +58,21 @@ async function deleteCategory(category: FormattedCategory) {
 defineExpose({
   saveChanges
 })
+
+onMounted(() => {
+  getAllCategories().then(categories_ => {
+    categories.value = categories_.map(category => ({
+      id: category.id,
+      name: category.name,
+      color: category.color,
+      showInputEl: false
+    }));
+  }).catch(error => {
+    console.error("Fehler beim Laden der Kategorien:", error);
+    emit('error', true);
+    emit('errorMessage', 'Fehler beim Laden der Kategorien.');
+  });;
+});
 </script>
 
 <template>
