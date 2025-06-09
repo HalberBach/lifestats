@@ -5,18 +5,21 @@ import {ScrollArea} from "@/components/ui/scroll-area";
 import {useStore} from "@/store/store.ts";
 import {Plus, Pencil, Trash, Check} from "lucide-vue-next";
 import {computed, onMounted, ref, watch} from "vue";
-import {getAllCategories} from "@/lib/api.ts";
+import useApi from "@/lib/api.ts";
 
 interface FormattedCategory {
   id: number,
   name: string,
   color: string,
-  showInputEl: boolean
+  showInputEl: boolean,
+  edited: boolean,
+  deleted: boolean
 }
 
 const store = useStore();
 const categories = ref<FormattedCategory[]>([]);
-let newCategoriesIdCounter = 0;
+const deletedCategoriesIds = ref<number>([]);
+const api = useApi()
 
 const emit = defineEmits(['error', 'errorMessage', 'editMode'])
 
@@ -37,41 +40,80 @@ function verifyInput(category: FormattedCategory) {
 }
 function toggleInputEl(category: FormattedCategory) {
   category.showInputEl = !category.showInputEl;
+   // TODO: Edited logic
 }
+
 async function saveChanges() {
-  // TODO: Implement save changes logic
+  const updated = categories.value.filter(cat => cat.edited && !cat.deleted);
+  const update_call = api.updateCategories(updated.map(cat => ({
+    id: cat.id,
+    name: cat.name,
+    color: cat.color
+  })));
+
+  const delete_call = api.setCategoriesDeleted(deletedCategoriesIds.value);
+
+  const added = categories.value.filter(cat => cat.id == null);
+  const add_call = api.addCategories(added.map(cat => ({
+    name: cat.name,
+    color: cat.color
+  })));
+
+  const [updateResponse, deleteResponse, addResponse] = await Promise.all([update_call, delete_call, add_call]);
+
+  if (updateResponse.error) {
+    console.log('Error updating categories:');
+  }
+  if (deleteResponse.error) {
+    console.log('Error deleting categories:');
+  }
+  if (addResponse.error) {
+    console.log('Error adding categories:');
+  }
+
+  getCategories();
 }
+
 function addCategory() {
   console.log('addCategory');
-  ++newCategoriesIdCounter;
   categories.value.unshift({
-    id: newCategoriesIdCounter,
+    id: null,
     name: 'New Category',
     color: '#000000',
-    showInputEl: true
+    showInputEl: true,
+    edited: false,
+    deleted: false
   });
 }
-async function deleteCategory(category: FormattedCategory) {
-  categories.value = categories.value.filter(cat => cat.id !== category.id);
+function deleteCategory(category: FormattedCategory) {
+  categories.value = categories.value.filter(cat => cat.id !== category.id)
+  deletedCategoriesIds.value.push(category.id);
+  console.log('category zum löschen makiert ', category.name);
 }
 
 defineExpose({
   saveChanges
 })
 
-onMounted(() => {
-  getAllCategories().then(categories_ => {
+function getCategories() {
+  api.getAllCategories().then(categories_ => {
+    console.log("Kategorien geladen:", categories_);
     categories.value = categories_.map(category => ({
       id: category.id,
       name: category.name,
       color: category.color,
-      showInputEl: false
+      showInputEl: false,
+      edited: false,
+      deleted: false
     }));
   }).catch(error => {
     console.error("Fehler beim Laden der Kategorien:", error);
     emit('error', true);
     emit('errorMessage', 'Fehler beim Laden der Kategorien.');
-  });;
+  });
+}
+onMounted(() => {
+  getCategories();
 });
 </script>
 
