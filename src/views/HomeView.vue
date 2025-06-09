@@ -2,6 +2,15 @@
 import HomeCharts from "@/components/home/HomeCharts/HomeCharts.vue";
 import HomeCategories from "@/components/home/HomeCategories/HomeCategories.vue";
 import HomeNews from "@/components/home/HomeNews/HomeNews.vue";
+import {onMounted} from "vue";
+
+import {useStore} from "@/store/store.ts";
+
+const store = useStore();
+onMounted(async () => {
+  // Initialize the data (load from database)
+  await store.getCategoryEntriesForDate(store.currentDate);
+});
 </script>
 
 <template>
