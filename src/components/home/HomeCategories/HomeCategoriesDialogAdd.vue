@@ -37,6 +37,7 @@ function verifyInput(category: FormattedCategory) {
   } else {
     emit('error', false);
   }
+  category.edited = true;
 }
 function toggleInputEl(category: FormattedCategory) {
   category.showInputEl = !category.showInputEl;

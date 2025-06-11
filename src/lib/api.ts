@@ -37,10 +37,11 @@ export default function useApi() {
 
     async function updateCategories(categories: Category[]) : Promise<boolean> {
         await Promise.all(categories.map(async (category) => {
+            console.log("Updating category:", category);
             const { data, error } = await supabase
                 .from('category')
-                .update({ 'name': update.name, 'color': update.color, 'deleted': update.deleted })
-                .eq('id', )
+                .update({ 'name': category.name, 'color': category.color })
+                .eq('id', category.id)
                 .select()
 
             if (error) {
