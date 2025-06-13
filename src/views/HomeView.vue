@@ -9,7 +9,7 @@ import {useStore} from "@/store/store.ts";
 const store = useStore();
 onMounted(async () => {
   // Initialize the data (load from database)
-  await store.getCategoryEntriesForDate(store.currentDate);
+  await store.init()
 });
 </script>
 

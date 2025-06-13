@@ -48,7 +48,7 @@ async function refreshData() {
   }
 }
 
-watch(() => store.categoriesForDate, () => {
+/*watch(() => store.categoriesForDate, () => {
   refreshData();
 })
 watch(() => store.last30Days, () => {
@@ -61,14 +61,14 @@ watch(() => selectedFilter.value, () => {
   refreshData();
 })
 
-refreshDonutData(store.categoriesForDate);
+refreshDonutData(store.categoriesForDate);*/
 </script>
 
 <template>
   <div class="main-container">
     <HomeChartsHeader v-model="selectedFilter"/>
     <div class="donutchart-container mt-20">
-      <HomeChartsDonut :entries="donutData" :colors="colors"/>
+<!--      <HomeChartsDonut :entries="donutData" :colors="colors"/>-->
     </div>
   </div>
 </template>

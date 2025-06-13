@@ -17,7 +17,6 @@ const selectedDate = ref<CalendarDate>(store.currentDate);
 
 async function changeSelectedDate() {
   await store.changeSelectedDate(selectedDate.value);
-  console.log('selectedDate', selectedDate.value);
 }
 </script>
 
