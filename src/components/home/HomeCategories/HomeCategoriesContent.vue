@@ -6,7 +6,7 @@ const store = useStore();
 
 <template>
   <div class="mt-8 flex-col w-full">
-    <div class="flex items-center justify-between mb-5" v-for="category in store.categoriesForDate" :key="category.id">
+    <div class="flex items-center justify-between mb-5" v-for="category in store.categoryEntriesForDate" :key="category.id">
       <div class="flex items-center">
         <div class="w-4 h-4 rounded-full" :style="{ backgroundColor: category.color }"></div>
         <p class="ml-4">{{ category.name }}</p>

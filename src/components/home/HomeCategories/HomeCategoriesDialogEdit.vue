@@ -18,7 +18,7 @@ interface FormattedCategory {
 const emit = defineEmits(['toMuchTime'])
 const store = useStore();
 const categoriesFormatted = ref<FormattedCategory[]>(
-    store.categoriesForDate.map(category => ({
+    store.categoryEntriesForDate.map(category => ({
       id: category.id,
       name: category.name,
       color: category.color,
@@ -56,7 +56,6 @@ function addTime(category: FormattedCategory, minutes: number) {
   } else {
     category.formattedTime = newTime;
   }
-  console.log('addedTime + ', category.formattedTime);
 }
 async function getCategoriesForDate() {
   await store.getCategoryEntriesForDate(selectedDate.value).then(values => {
@@ -75,7 +74,6 @@ async function saveChanges() {
     color: category.color,
     time: category.formattedTime * 60
   })) as CategoryEntry[]);
-  console.log('saveChanges');
 }
 
 defineExpose({

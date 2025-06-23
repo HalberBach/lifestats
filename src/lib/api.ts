@@ -114,11 +114,44 @@ export default function useApi() {
         })) as CategoryEntry[];
     }
 
+    /**
+     * Sets / Updates the time for category entries for a specific date.
+     *
+     * @param categoryEntries
+     */
+    async function updateCategoryEntriesForDate(categoryEntries: CategoryEntry[]) : Promise<CategoryEntry[]> {
+        const updatedEntries: CategoryEntry[] = [];
+
+        await Promise.all(categoryEntries.map(async (entry) => {
+            const { data, error } = await supabase
+                .from('category_entry')
+                .update({ 'time': entry.time })
+                .eq('id', entry.id)
+                .select('id, time, category (name, color)')
+
+            if (error) {
+                console.error("Error updating category: (reload site)", error);
+                return [];
+            } else if (data && data.length > 0) {
+                updatedEntries.push({
+                    id: data[0].id,
+                    name: data[0].category.color,
+                    color: data[0].category.color,
+                    time: data[0].time || 0,
+                });
+            }
+        }));
+
+        console.log("Updated category entries:", updatedEntries);
+        return updatedEntries;
+    }
+
     return {
         getAllCategories,
         addCategories,
         updateCategories,
         setCategoriesDeleted,
-        getCategoryEntriesForDate
+        getCategoryEntriesForDate,
+        updateCategoryEntriesForDate
     }
 }

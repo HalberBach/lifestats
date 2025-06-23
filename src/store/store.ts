@@ -31,36 +31,37 @@ export const useStore = defineStore('store', () => {
     }
 
     async function saveCategoriesEntriesForDate(date: CalendarDate, categories: CategoryEntry[])  {
-/*        return api.saveCategoryEntriesForDate(date.toDate(), categories).then(() => {
-            if (currentDate.value.equals(date)) {
-                //categoryEntriesForDate.value = categories;
-            }
-            console.log('saveCategoriesEntriesForDate');
-        }).catch(() => {
-            // TODO: Fehlerbehandlung
-        })*/
+        // TODO: Neue Entries müssen in DB hinzugefügt werden (extra api call)
+        const newEntries = await api.updateCategoryEntriesForDate(categories);
+        if (date.compare(currentDate.value) === 0) {
+            categoryEntriesForDate.value = newEntries;
+        }
     }
 
     async function setCategoryEntriesForDate(date: CalendarDate) : Promise<CategoryEntry[]> {
         categoryEntriesForDate.value = await api.getCategoryEntriesForDate(date)
     }
 
+    async function getCategoryEntriesForDate(date: CalendarDate) : Promise<CategoryEntry[]> {
+        return await api.getCategoryEntriesForDate(date)
+    }
+
     async function getLast30Days()  {
-        return api.getLast30Days().then((entries) => {
+/*        return api.getLast30Days().then((entries) => {
             console.log('getLast30Days');
             return entries;
         }).catch(() => {
             // TODO: Fehlerbehandlung
-        })
+        })*/
     }
 
     async function getTotal()  {
-        return api.getTotalTime().then((entries) => {
+/*        return api.getTotalTime().then((entries) => {
             console.log('getTotal');
             return entries;
         }).catch(() => {
             // TODO: Fehlerbehandlung
-        })
+        })*/
     }
 
     async function changeSelectedDate(date: CalendarDate) {
@@ -69,10 +70,10 @@ export const useStore = defineStore('store', () => {
         console.log('changeSelectedDate');
     }
 
-    return { categoriesForDate: categoryEntriesForDate,
+    return { categoryEntriesForDate,
         categories,
         saveCategoriesEntriesForDate,
-        setCategoryEntriesForDate,
+        getCategoryEntriesForDate,
         init,
         changeSelectedDate,
         getLast30Days,
