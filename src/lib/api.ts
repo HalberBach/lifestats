@@ -106,12 +106,15 @@ export default function useApi() {
             return [];
         }
 
+        console.log(categories)
         return categories?.map(category => ({
             id: category.id,
             name: category.category.color,
             color: category.category.color,
             time: category.time || 0,
-        })) as CategoryEntry[];
+        })).sort(
+            (a, b) => a.id - b.id
+        ) as CategoryEntry[];
     }
 
     /**
@@ -142,6 +145,7 @@ export default function useApi() {
             }
         }));
 
+        updatedEntries.sort((a, b) => a.id - b.id);
         console.log("Updated category entries:", updatedEntries);
         return updatedEntries;
     }
