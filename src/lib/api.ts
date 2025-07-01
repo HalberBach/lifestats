@@ -109,7 +109,7 @@ export default function useApi() {
         console.log(categories)
         return categories?.map(category => ({
             id: category.id,
-            name: category.category.color,
+            name: category.category.name,
             color: category.category.color,
             time: category.time || 0,
         })).sort(
