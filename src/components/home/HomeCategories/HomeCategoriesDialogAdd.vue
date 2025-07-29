@@ -97,21 +97,14 @@ defineExpose({
 })
 
 function getCategories() {
-  api.getAllCategories().then(categories_ => {
-    console.log("Kategorien geladen:", categories_);
-    categories.value = categories_.map(category => ({
-      id: category.id,
-      name: category.name,
-      color: category.color,
-      showInputEl: false,
-      edited: false,
-      deleted: false
-    }));
-  }).catch(error => {
-    console.error("Fehler beim Laden der Kategorien:", error);
-    emit('error', true);
-    emit('errorMessage', 'Fehler beim Laden der Kategorien.');
-  });
+  categories.value = store.categories.map(category => ({
+    id: category.id,
+    name: category.name,
+    color: category.color,
+    showInputEl: false,
+    edited: false,
+    deleted: false
+  }));
 }
 onMounted(() => {
   getCategories();
@@ -155,9 +148,3 @@ onMounted(() => {
     </Button>
   </div>
 </template>
-
-<style scoped>
-.hover-container {
-
-}
-</style>

@@ -8,42 +8,35 @@ export const useStore = defineStore('store', () => {
     const api = useApi();
 
     const currentDate = ref<CalendarDate>(new CalendarDate(2025, 3, 3));
-    const categories = ref<Category[]>(
-        [
-            { id: 1, name: 'Kategorie 1', color: '#264653' },
-            { id: 2, name: 'Kategorie 2', color: '#2A9D8F' },
-            { id: 3, name: 'Kategorie 3', color: '#E9C46A' },
-            { id: 4, name: 'Kategorie 4', color: '#F4A261' },
-            { id: 5, name: 'Kategorie 5', color: '#E76F51' },
-            { id: 6, name: 'Kategorie 6', color: '#D4A5A5' },
-            { id: 7, name: 'Kategorie 7', color: '#264653' },
-            { id: 8, name: 'Kategorie 8', color: '#2A9D8F' },
-            { id: 9, name: 'Kategorie 9', color: '#E9C46A' },
-            { id: 10, name: 'Kategorie 10', color: '#F4A261' },
-            { id: 11, name: 'Kategorie 11', color: '#E76F51' },
-        ]
-    )
+    const categories = ref<Category[]>([] as Category[]);
 
     const categoryEntriesForDate = ref<CategoryEntry[]>([]);
 
     async function init() {
-        await setCategoryEntriesForDate(currentDate.value);
+        await Promise.all([
+            setCategoryEntriesForDate(currentDate.value),
+            api.getAllCategories().then(categories_ => {
+                categories.value = categories_;
+            })
+        ]);
     }
 
     async function saveCategoriesEntriesForDate(date: CalendarDate, categories: CategoryEntry[])  {
-        // TODO: Neue Entries müssen in DB hinzugefügt werden (extra api call)
-        const newEntries = await api.updateCategoryEntriesForDate(categories);
+        await Promise.all([
+            api.createCategoryEntriesForDate(date.toString(), categories.filter(entry => entry.id === 0)),
+            api.updateCategoryEntriesForDate(categories.filter(entry => entry.id > 0))
+        ]);
         if (date.compare(currentDate.value) === 0) {
-            categoryEntriesForDate.value = newEntries;
+            await setCategoryEntriesForDate(date);
         }
     }
 
     async function setCategoryEntriesForDate(date: CalendarDate) : Promise<CategoryEntry[]> {
-        categoryEntriesForDate.value = await api.getCategoryEntriesForDate(date)
+        categoryEntriesForDate.value = await api.getCategoryEntriesForDate(date.toString())
     }
 
     async function getCategoryEntriesForDate(date: CalendarDate) : Promise<CategoryEntry[]> {
-        return await api.getCategoryEntriesForDate(date)
+        return await api.getCategoryEntriesForDate(date.toString())
     }
 
     async function getLast30Days()  {

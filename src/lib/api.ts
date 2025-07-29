@@ -106,9 +106,9 @@ export default function useApi() {
             return [];
         }
 
-        console.log(categories)
         return categories?.map(category => ({
             id: category.id,
+            categoryId: category.category.id,
             name: category.category.name,
             color: category.category.color,
             time: category.time || 0,
@@ -146,8 +146,24 @@ export default function useApi() {
         }));
 
         updatedEntries.sort((a, b) => a.id - b.id);
-        console.log("Updated category entries:", updatedEntries);
         return updatedEntries;
+    }
+
+    /**
+     * Creates new category entries for a specific date
+     *
+     * @params date, categories
+     */
+    async function createCategoryEntriesForDate(date: string, categories: CategoryEntry[]) : Promise<CategoryEntry[]> {
+        await Promise.all(categories.map(async (entry) => {
+            const { data, error } = await supabase
+                .from('category_entry')
+                .insert([{ date: date, time: entry.time, category_id: entry.categoryId }])
+
+            if (error) {
+                console.error("Error creating category entry:", error);
+            }
+        }));
     }
 
     return {
@@ -156,6 +172,7 @@ export default function useApi() {
         updateCategories,
         setCategoriesDeleted,
         getCategoryEntriesForDate,
-        updateCategoryEntriesForDate
+        updateCategoryEntriesForDate,
+        createCategoryEntriesForDate
     }
 }
