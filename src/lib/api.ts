@@ -1,5 +1,6 @@
 import {supabase} from "@/lib/supabaseClient.ts";
-import type {Category, CategoryEntry} from "@/types";
+import type {Category, CategoryEntry, DonutData} from "@/types";
+import {minutesToHours} from "@/utils/utils.ts";
 
 export default function useApi() {
     /**
@@ -26,7 +27,7 @@ export default function useApi() {
     /**
      * Adds new categories to the database.
      *
-     * @param {Category[]}
+     * @param categories
      */
     async function addCategories(categories: Category[]) : Promise<boolean> {
         await Promise.all(categories.map(async (category) => {
@@ -166,6 +167,39 @@ export default function useApi() {
         }));
     }
 
+    /**
+     * Fetches the summary statistics for the last 30 days and all time.
+     */
+    async function getSummaryStatistics() {
+        const { data, error } = await supabase
+            .from('value_summaries')
+            .select('*');
+
+        if (error) {
+            console.error('Error fetching summary statistic:', error);
+        } else {
+            const last30Days: DonutData[] = [];
+            const total: DonutData[] = [];
+
+            data?.forEach((row => {
+                last30Days.push({
+                    id: row.category_id,
+                    name: row.category_name,
+                    total: minutesToHours(row.sum_last_30_days),
+                });
+                total.push({
+                    id: row.category_id,
+                    name: row.category_name,
+                    total: minutesToHours(row.sum_all_time),
+                });
+            }));
+            return {
+                last30Days,
+                total,
+            }
+        }
+    }
+
     return {
         getAllCategories,
         addCategories,
@@ -173,6 +207,7 @@ export default function useApi() {
         setCategoriesDeleted,
         getCategoryEntriesForDate,
         updateCategoryEntriesForDate,
-        createCategoryEntriesForDate
+        createCategoryEntriesForDate,
+        getSummaryStatistics,
     }
 }

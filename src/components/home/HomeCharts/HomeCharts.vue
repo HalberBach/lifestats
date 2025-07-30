@@ -3,13 +3,8 @@ import HomeChartsHeader from "@/components/home/HomeCharts/HomeChartsHeader.vue"
 import HomeChartsDonut from "@/components/home/HomeCharts/HomeChartsDonut.vue";
 import {useStore} from "@/store/store.ts";
 import { ref, watch} from "vue";
-import type {CategoryEntry} from "@/types";
+import type {CategoryEntry, DonutData} from "@/types";
 import {minutesToHours} from "@/utils/utils.ts";
-
-interface DonutData {
-  name: string
-  total: number
-}
 
 const store = useStore();
 const data = ref<CategoryEntry[]>(store.categoriesForDate);
@@ -33,42 +28,56 @@ function refreshDonutData(newEntries: CategoryEntry[]) {
   }
   console.log('Refreshed Donut Data')
 }
-async function refreshData() {
+
+function refreshData() {
   if (selectedFilter.value === 'today') {
-    refreshDonutData(store.categoriesForDate);
+    refreshDonutData(store.categoryEntriesForDate);
     console.log('today')
   } else if (selectedFilter.value === '30 Days') {
-    refreshDonutData(await store.getLast30Days())
+    if (store.categoryEntriesLast30Days.length === 0) {
+      donutData.value = { name: 'Nothing', total: 24 };
+      colors.value = ['#264653'];
+    } else {
+      donutData.value = store.categoryEntriesLast30Days
+      colors.value = store.categoryEntriesLast30Days.map((entry) => entry.color);
+    }
     console.log('30 days')
+
   } else if (selectedFilter.value === 'total') {
-    refreshDonutData(await store.getTotal());
+    if (store.categoryEntriesTotalTime.length === 0) {
+      donutData.value = { name: 'Nothing', total: 24 };
+      colors.value = ['#264653'];
+    } else {
+      donutData.value = store.categoryEntriesTotalTime
+      colors.value = store.categoryEntriesTotalTime.map((entry) => entry.color);
+    }
     console.log('total')
   } else {
     hasError.value = true;
   }
 }
 
-/*watch(() => store.categoriesForDate, () => {
+watch(() => store.categoryEntriesForDate, () => {
   refreshData();
 })
-watch(() => store.last30Days, () => {
+watch(() => store.categoryEntriesLast30Days, () => {
   refreshData();
 })
-watch(() => store.totalTime, () => {
+watch(() => store.categoryEntriesTotalTime, () => {
   refreshData();
 })
 watch(() => selectedFilter.value, () => {
   refreshData();
 })
 
-refreshDonutData(store.categoriesForDate);*/
+refreshDonutData(store.categoryEntriesForDate);
 </script>
 
 <template>
   <div class="main-container">
     <HomeChartsHeader v-model="selectedFilter"/>
     <div class="donutchart-container mt-20">
-<!--      <HomeChartsDonut :entries="donutData" :colors="colors"/>-->
+      <HomeChartsDonut :entries="donutData" :colors="colors"/>
     </div>
   </div>
 </template>

@@ -14,7 +14,7 @@ const selectValue = defineModel<string>()
 <template>
   <div class="homechartsheader-container">
     <p class="text-3xl font-bold">
-      Total Time
+      Summary
     </p>
     <Select v-model="selectValue">
       <SelectTrigger class="w-[200px]">
@@ -24,10 +24,10 @@ const selectValue = defineModel<string>()
         <SelectGroup>
           <SelectLabel>Select</SelectLabel>
           <SelectItem value="today">
-            Today
+            Selected Day
           </SelectItem>
           <SelectItem value="30 Days">
-            30 Days
+            Last 30 Days
           </SelectItem>
           <SelectItem value="total">
             Total

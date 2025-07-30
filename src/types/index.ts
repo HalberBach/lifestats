@@ -11,3 +11,10 @@ export interface CategoryEntry {
     color: string
     time: number
 }
+
+export interface DonutData {
+    id: number
+    name: string
+    total: number
+    color?: string
+}
