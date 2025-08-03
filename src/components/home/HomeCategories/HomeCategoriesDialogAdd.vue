@@ -8,7 +8,7 @@ import {computed, onMounted, ref, watch} from "vue";
 import useApi from "@/lib/api.ts";
 
 interface FormattedCategory {
-  id: number,
+  id: number | null, // null for new categories
   name: string,
   color: string,
   showInputEl: boolean,
@@ -58,7 +58,7 @@ function toggleInputEl(category: FormattedCategory) {
 
 async function saveChanges() {
   emit('error', false);
-  const updated = categories.value.filter(cat => cat.edited && !cat.deleted);
+  const updated = categories.value.filter(cat => cat.edited && !cat.deleted && cat.id !== null);
   const update_call = api.updateCategories(updated.map(cat => ({
     id: cat.id,
     name: cat.name,
