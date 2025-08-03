@@ -20,8 +20,16 @@ const store = useStore();
 const categories = ref<FormattedCategory[]>([]);
 const deletedCategoriesIds = ref<number>([]);
 const api = useApi()
+const colorTheme = [
+  "#ff0000", "#ff6600", "#ff9900", "#ffcc00",
+  "#feff00", "#cbff00", "#98ff00", "#65ff00", "#32ff00",
+  "#00ff66", "#00ff99", "#00ffcc",
+  "#00feff", "#00cbff", "#0098ff", "#0065ff", "#0032ff",
+  "#0000ff", "#3200ff", "#6500ff", "#9900ff", "#cb00ff",
+  "#ff00fe", "#ff0032"
+];
 
-const emit = defineEmits(['error', 'errorMessage', 'editMode'])
+const emit = defineEmits(['error', 'errorMessage', 'editMode','opened'])
 
 const categoryInEditMode = computed(() => {
   return categories.value.some(category => category.showInputEl);
@@ -40,11 +48,13 @@ function verifyInput(category: FormattedCategory) {
   category.edited = true;
 }
 function toggleInputEl(category: FormattedCategory) {
+  emit('error', false);
   category.showInputEl = !category.showInputEl;
    // TODO: Edited logic
 }
 
 async function saveChanges() {
+  emit('error', false);
   const updated = categories.value.filter(cat => cat.edited && !cat.deleted);
   const update_call = api.updateCategories(updated.map(cat => ({
     id: cat.id,
@@ -76,20 +86,30 @@ async function saveChanges() {
 }
 
 function addCategory() {
-  console.log('addCategory');
-  categories.value.unshift({
-    id: null,
-    name: 'New Category',
-    color: '#000000',
-    showInputEl: true,
-    edited: false,
-    deleted: false
-  });
+  if (categories.value.length >= 20) {
+    emit('error', true);
+    emit('errorMessage', 'You can only have a maximum of 20 categories');
+  } else {
+    emit('error', false);
+    for (const element of colorTheme) {
+      if (!categories.value.some(cat => cat.color === element)) {
+        categories.value.unshift({
+          id: null,
+          name: 'New Category',
+          color: element,
+          showInputEl: true,
+          edited: false,
+          deleted: false
+        });
+        return;
+      }
+    }
+  }
 }
 function deleteCategory(category: FormattedCategory) {
   categories.value = categories.value.filter(cat => cat.id !== category.id)
   deletedCategoriesIds.value.push(category.id);
-  console.log('category zum löschen makiert ', category.name);
+  // TODO: Deleted logic
 }
 
 defineExpose({
@@ -107,6 +127,7 @@ function getCategories() {
   }));
 }
 onMounted(() => {
+  emit('opened', true);
   getCategories();
 });
 </script>

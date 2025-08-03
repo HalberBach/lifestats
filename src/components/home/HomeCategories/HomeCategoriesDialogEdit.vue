@@ -16,7 +16,7 @@ interface FormattedCategory {
   color: string,
   formattedTime: number
 }
-const emit = defineEmits(['toMuchTime'])
+const emit = defineEmits(['toMuchTime','opened'])
 const store = useStore();
 const categoriesFormatted = ref<FormattedCategory[]>([]);
 const selectedDate = ref<CalendarDate>(store.currentDate);
@@ -96,6 +96,7 @@ defineExpose({
 })
 
 onMounted(() => {
+  emit('opened', true);
   const formattedCategories = store.categoryEntriesForDate.map(category => ({
     id: category.id,
     name: category.name,

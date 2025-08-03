@@ -7,7 +7,6 @@ import type {CategoryEntry, DonutData} from "@/types";
 import {minutesToHours} from "@/utils/utils.ts";
 
 const store = useStore();
-const data = ref<CategoryEntry[]>(store.categoriesForDate);
 const donutData = ref<DonutData[]>([
   { name: 'Nothing', total: 24 }
 ])
@@ -16,8 +15,8 @@ const selectedFilter = ref<string>('today');
 const hasError = ref<boolean>(false);
 
 function refreshDonutData(newEntries: CategoryEntry[]) {
-  if (newEntries.length === 0) {
-    donutData.value = { name: 'Nothing', total: 24 };
+  if (!newEntries || newEntries.length === 0) {
+    donutData.value = [{ name: 'Nothing', total: 24 }];
     colors.value = ['#264653'];
   } else {
     donutData.value = newEntries.map((entry) => ({
@@ -26,32 +25,28 @@ function refreshDonutData(newEntries: CategoryEntry[]) {
     }))
     colors.value = newEntries.map((entry) => entry.color);
   }
-  console.log('Refreshed Donut Data')
 }
 
 function refreshData() {
   if (selectedFilter.value === 'today') {
     refreshDonutData(store.categoryEntriesForDate);
-    console.log('today')
   } else if (selectedFilter.value === '30 Days') {
     if (store.categoryEntriesLast30Days.length === 0) {
-      donutData.value = { name: 'Nothing', total: 24 };
+      donutData.value = [{ name: 'Nothing', total: 24 }];
       colors.value = ['#264653'];
     } else {
       donutData.value = store.categoryEntriesLast30Days
       colors.value = store.categoryEntriesLast30Days.map((entry) => entry.color);
     }
-    console.log('30 days')
 
   } else if (selectedFilter.value === 'total') {
     if (store.categoryEntriesTotalTime.length === 0) {
-      donutData.value = { name: 'Nothing', total: 24 };
+      donutData.value = [{ name: 'Nothing', total: 24 }];
       colors.value = ['#264653'];
     } else {
       donutData.value = store.categoryEntriesTotalTime
       colors.value = store.categoryEntriesTotalTime.map((entry) => entry.color);
     }
-    console.log('total')
   } else {
     hasError.value = true;
   }
@@ -69,8 +64,6 @@ watch(() => store.categoryEntriesTotalTime, () => {
 watch(() => selectedFilter.value, () => {
   refreshData();
 })
-
-refreshDonutData(store.categoryEntriesForDate);
 </script>
 
 <template>

@@ -33,6 +33,11 @@ function saveChanges() {
     addDialogRef.value.saveChanges();
   }
 }
+
+function cancelErrors() {
+  showTimeError.value = false;
+  showCategoryError.value = false;
+}
 </script>
 
 <template>
@@ -59,7 +64,7 @@ function saveChanges() {
         </DialogDescription>
       </DialogHeader>
       <div>
-        <Tabs default-value="edit" >
+        <Tabs default-value="edit">
           <div class="flex items-center mb-4">
             <TabsList>
               <TabsTrigger value="edit">
@@ -73,19 +78,22 @@ function saveChanges() {
             <Label v-if="showCategoryError" class="ml-4 text-red-500">{{ categoryError }}</Label>
           </div>
           <TabsContent value="edit">
-            <HomeCategoriesDialogEdit @toMuchTime="(show:boolean) => showTimeError = show" ref="editDialogRef"/>
+            <HomeCategoriesDialogEdit @toMuchTime="(show:boolean) => showTimeError = show" ref="editDialogRef"
+                                      @opened="cancelErrors"
+            />
           </TabsContent>
           <TabsContent value="change">
             <HomeCategoriesDialogAdd @error="(show:boolean) => showCategoryError = show"
                                      @errorMessage="(message:string) => categoryError = message"
                                      @editMode="(show:boolean) => disableSaveButton = show"
+                                     @opened="cancelErrors"
                                      ref="addDialogRef"/>
           </TabsContent>
         </Tabs>
       </div>
       <DialogFooter class="mt-6">
         <DialogClose>
-          <Button variant="destructive">
+          <Button variant="destructive" @click="cancelErrors">
             Cancel
           </Button>
         </DialogClose>

@@ -107,7 +107,10 @@ export default function useApi() {
             return [];
         }
 
-        return categories?.map(category => ({
+        if (!categories || categories.length === 0) {
+            return [] as CategoryEntry[];
+        }
+        return categories.map(category => ({
             id: category.id,
             categoryId: category.category.id,
             name: category.category.name,

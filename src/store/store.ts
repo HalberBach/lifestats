@@ -1,13 +1,16 @@
 import { defineStore } from 'pinia';
 import { ref } from 'vue';
 import type {Category, CategoryEntry, DonutData} from "@/types";
-import {CalendarDate} from "@internationalized/date";
+import {
+    CalendarDate
+} from "@internationalized/date";
 import useApi from "@/lib/api";
 
 export const useStore = defineStore('store', () => {
     const api = useApi();
 
-    const currentDate = ref<CalendarDate>(new CalendarDate(2025, 3, 3));
+    const currentDate = ref<CalendarDate>(
+        new CalendarDate(new Date().getFullYear(), new Date().getMonth() + 1, new Date().getDate()));
     const categories = ref<Category[]>([] as Category[]);
     const categoryEntriesForDate = ref<CategoryEntry[]>([]);
 
@@ -16,6 +19,7 @@ export const useStore = defineStore('store', () => {
     const categoryEntriesTotalTime = ref<DonutData[]>([]);
 
     async function init() {
+        currentDate.value = new CalendarDate(new Date().getFullYear(), new Date().getMonth() + 1, new Date().getDate())
         await Promise.all([
             setCategoryEntriesForDate(currentDate.value),
             api.getAllCategories().then(categories_ => {
@@ -37,7 +41,10 @@ export const useStore = defineStore('store', () => {
     }
 
     async function setCategoryEntriesForDate(date: CalendarDate) : Promise<CategoryEntry[]> {
-        categoryEntriesForDate.value = await api.getCategoryEntriesForDate(date.toString())
+        await api.getCategoryEntriesForDate(date.toString()).then(entries => {
+                categoryEntriesForDate.value = entries;
+            }
+        )
     }
 
     async function getCategoryEntriesForDate(date: CalendarDate) : Promise<CategoryEntry[]> {
@@ -46,25 +53,28 @@ export const useStore = defineStore('store', () => {
 
     async function refreshSummaryStatistics() {
         await api.getSummaryStatistics().then(summary => {
-            categoryEntriesLast30Days.value = summary.last30Days.map((entry) => ({
-                id: entry.id,
-                name: entry.name,
-                total: entry.total,
-                color: categories.value.find(cat => cat.id === entry.id)?.color || '#000000' // Default color if not found
-            })) as DonutData[];
-            categoryEntriesTotalTime.value = summary.total.map((entry) => ({
-                id: entry.id,
-                name: entry.name,
-                total: entry.total,
-                color: categories.value.find(cat => cat.id === entry.id)?.color || '#000000' // Default color if not found
-            })) as DonutData[];
+            if (summary.last30Days.length === 0 || summary.total.length === 0) {
+                categoryEntriesLast30Days.value = [] as DonutData[];
+                categoryEntriesTotalTime.value = [] as DonutData[];
+            } else {
+                categoryEntriesLast30Days.value = summary.last30Days.map((entry) => ({
+                    id: entry.id,
+                    name: entry.name,
+                    total: entry.total,
+                    color: categories.value.find(cat => cat.id === entry.id)?.color || '#000000' // Default color if not found
+                })) as DonutData[];
+                categoryEntriesTotalTime.value = summary.total.map((entry) => ({
+                    id: entry.id,
+                    name: entry.name,
+                    total: entry.total,
+                    color: categories.value.find(cat => cat.id === entry.id)?.color || '#000000' // Default color if not found
+                })) as DonutData[];
+            }
         });
     }
 
-    async function changeSelectedDate(date: CalendarDate) {
-        currentDate.value = date;
-        await setCategoryEntriesForDate(date);
-        console.log('changeSelectedDate');
+    async function changeSelectedDate() {
+        await setCategoryEntriesForDate(currentDate.value);
     }
 
     return { categoryEntriesForDate,
