@@ -42,6 +42,9 @@ function verifyInput(category: FormattedCategory) {
   if (category.name.length > 20) {
     emit('error', true);
     emit('errorMessage', 'Category name is too long');
+  } else if (category.name.length === 0) {
+    emit('error', true);
+    emit('errorMessage', 'Category name cannot be empty');
   } else {
     emit('error', false);
   }
@@ -148,7 +151,8 @@ onMounted(() => {
         </p>
       </div>
       <div class="flex gap-3" v-if="category.showInputEl">
-        <Button class="w-[40px]" variant="default" @click="toggleInputEl(category)" :disabled="category.name.length > 20">
+        <Button class="w-[40px]" variant="default" @click="toggleInputEl(category)"
+                :disabled="category.name.length > 20 || category.name.length === 0">
           <Check />
         </Button>
         <Button class="w-[40px]" variant="ghost" disabled></Button>
