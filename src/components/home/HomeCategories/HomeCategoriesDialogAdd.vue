@@ -51,7 +51,7 @@ function verifyInput(category: FormattedCategory) {
   category.edited = true;
 }
 function toggleInputEl(category: FormattedCategory) {
-  emit('error', false);
+  //emit('error', false);
   category.showInputEl = !category.showInputEl;
    // TODO: Edited logic
 }
@@ -144,7 +144,6 @@ onMounted(() => {
         <Input class="ml-3 w-full"
                v-if="category.showInputEl"
                v-model="category.name"
-               @keydown.enter="toggleInputEl(category)"
                @input="verifyInput(category)"/>
         <p v-else class="ml-3 w-full" @click="toggleInputEl(category)" @blur="toggleInputEl(category)">
           {{ category.name }}
