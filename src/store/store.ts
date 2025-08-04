@@ -41,9 +41,11 @@ export const useStore = defineStore('store', () => {
     }
 
     async function setCategoryEntriesForDate(date: CalendarDate) : Promise<CategoryEntry[]> {
-        await api.getCategoryEntriesForDate(date.toString()).then(entries => {
-            categoryEntriesForDate.value = entries;
-        })
+        if (date) {
+            await api.getCategoryEntriesForDate(date.toString()).then(entries => {
+                categoryEntriesForDate.value = entries;
+            })
+        }
     }
 
     async function getCategoryEntriesForDate(date: CalendarDate) : Promise<CategoryEntry[]> {
@@ -60,13 +62,13 @@ export const useStore = defineStore('store', () => {
                     id: entry.id,
                     name: entry.name,
                     total: entry.total,
-                    color: categories.value.find(cat => cat.id === entry.id)?.color || '#000000' // Default color if not found
+                    color: categories.value.find(cat => cat.id === entry.id)?.color ?? '#000000' // Default color if not found
                 })) as DonutData[];
                 categoryEntriesTotalTime.value = summary.total.map((entry) => ({
                     id: entry.id,
                     name: entry.name,
                     total: entry.total,
-                    color: categories.value.find(cat => cat.id === entry.id)?.color || '#000000' // Default color if not found
+                    color: categories.value.find(cat => cat.id === entry.id)?.color ?? '#000000' // Default color if not found
                 })) as DonutData[];
             }
         });
@@ -74,23 +76,6 @@ export const useStore = defineStore('store', () => {
 
     async function changeSelectedDate() {
         await setCategoryEntriesForDate(currentDate.value);
-    }
-
-    // Helper Functions
-
-    // Fills the category entries list with those without entries for the selected date
-    function fillCategoryEntryList() {
-        for (const c of categories.value) {
-            if (!categoryEntriesForDate.value.some(category => category.name === c.name)) {
-                categoryEntriesForDate.value.push({
-                    id: 0,
-                    categoryId: c.id,
-                    name: c.name,
-                    color: c.color,
-                    formattedTime: 0
-                });
-            }
-        }
     }
 
     return { categoryEntriesForDate,

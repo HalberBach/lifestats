@@ -117,7 +117,7 @@ export default function useApi() {
             color: category.category.color,
             time: category.time || 0,
         })).sort(
-            (a, b) => a.id - b.id
+(a, b) => a.name.localeCompare(b.name)
         ) as CategoryEntry[];
     }
 
@@ -149,7 +149,7 @@ export default function useApi() {
             }
         }));
 
-        updatedEntries.sort((a, b) => a.id - b.id);
+        updatedEntries.sort((a, b) => a.name.localeCompare(b.name));
         return updatedEntries;
     }
 
