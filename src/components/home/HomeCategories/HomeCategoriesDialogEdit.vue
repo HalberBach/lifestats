@@ -88,7 +88,7 @@ function fillCategoryList(formattedCategories: FormattedCategory[]) {
       });
     }
   }
-  categoriesFormatted.value = formattedCategories;
+  categoriesFormatted.value = formattedCategories.sort((a, b) => a.name.localeCompare(b.name));
 }
 
 defineExpose({

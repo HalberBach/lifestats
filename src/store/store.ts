@@ -22,11 +22,13 @@ export const useStore = defineStore('store', () => {
         currentDate.value = new CalendarDate(new Date().getFullYear(), new Date().getMonth() + 1, new Date().getDate())
         await Promise.all([
             setCategoryEntriesForDate(currentDate.value),
-            api.getAllCategories().then(categories_ => {
-                categories.value = categories_;
-            }),
+            setCategories(),
             refreshSummaryStatistics()
         ]);
+    }
+
+    async function setCategories() : Promise<Category[]> {
+        categories.value = await api.getAllCategories();
     }
 
     async function saveCategoriesEntriesForDate(date: CalendarDate, categories: CategoryEntry[])  {
@@ -42,9 +44,7 @@ export const useStore = defineStore('store', () => {
 
     async function setCategoryEntriesForDate(date: CalendarDate) : Promise<CategoryEntry[]> {
         if (date) {
-            await api.getCategoryEntriesForDate(date.toString()).then(entries => {
-                categoryEntriesForDate.value = entries;
-            })
+            categoryEntriesForDate.value = await api.getCategoryEntriesForDate(date.toString());
         }
     }
 
@@ -80,10 +80,13 @@ export const useStore = defineStore('store', () => {
 
     return { categoryEntriesForDate,
         categories,
+        setCategories,
         saveCategoriesEntriesForDate,
         getCategoryEntriesForDate,
+        setCategoryEntriesForDate,
         init,
         changeSelectedDate,
+        refreshSummaryStatistics,
         categoryEntriesLast30Days,
         categoryEntriesTotalTime,
         currentDate };

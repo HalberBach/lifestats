@@ -13,7 +13,6 @@ export default function useApi() {
             .select("*")
             .eq('deleted', false);
         if (error && !categories) {
-            // TODO: Handle error appropriately
             console.error("Error fetching categories:");
             return [];
         }
@@ -72,7 +71,7 @@ export default function useApi() {
     /**
      * Marks categories as deleted in the database.
      *
-     * @param {number[]}
+     * @param ids - Array of category IDs to mark as deleted.
      */
     async function setCategoriesDeleted(ids: number[]) : Promise<boolean> {
         await Promise.all(ids.map(async (id) => {
@@ -83,6 +82,27 @@ export default function useApi() {
 
             if (error) {
                 console.error("Error deleting category:", error);
+                return false;
+            }
+        }));
+
+        return true;
+    }
+
+    /**
+     * Fully deletes categories from the database. (Entries will also be deleted)
+     *
+     * @param ids - Array of category IDs to fully delete.
+     */
+    async function fullyDeleteCategories(ids: number[]){
+        await Promise.all(ids.map(async (id) => {
+            const { data, error } = await supabase
+                .from('category')
+                .delete()
+                .eq('id', id)
+
+            if (error) {
+                console.error("Error fully deleting categories:", error);
                 return false;
             }
         }));
@@ -208,6 +228,7 @@ export default function useApi() {
         addCategories,
         updateCategories,
         setCategoriesDeleted,
+        fullyDeleteCategories,
         getCategoryEntriesForDate,
         updateCategoryEntriesForDate,
         createCategoryEntriesForDate,

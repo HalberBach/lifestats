@@ -58,34 +58,45 @@ function toggleInputEl(category: FormattedCategory) {
 
 async function saveChanges() {
   emit('error', false);
-  const updated = categories.value.filter(cat => cat.edited && !cat.deleted && cat.id !== null);
-  const update_call = api.updateCategories(updated.map(cat => ({
-    id: cat.id,
-    name: cat.name,
-    color: cat.color
-  })));
 
-  const delete_call = api.setCategoriesDeleted(deletedCategoriesIds.value);
+  categories.value = categories.value.filter(cat => !(cat.deleted && cat.id === null));
 
-  const added = categories.value.filter(cat => cat.id == null);
-  const add_call = api.addCategories(added.map(cat => ({
-    name: cat.name,
-    color: cat.color
-  })));
+  if (categories.value.length !== 0) {
+    const updated = categories.value.filter(cat => cat.edited && !cat.deleted && cat.id !== null);
+    const update_call = api.updateCategories(updated.map(cat => ({
+      id: cat.id,
+      name: cat.name,
+      color: cat.color
+    })));
 
-  const [updateResponse, deleteResponse, addResponse] = await Promise.all([update_call, delete_call, add_call]);
+    const delete_call = api.fullyDeleteCategories(deletedCategoriesIds.value);
 
-  if (updateResponse.error) {
-    console.log('Error updating categories:');
+    const added = categories.value.filter(cat => cat.id == null);
+    const add_call = api.addCategories(added.map(cat => ({
+      name: cat.name,
+      color: cat.color
+    })));
+
+    const [updateResponse, deleteResponse, addResponse] = await Promise.all([update_call, delete_call, add_call]);
+
+    if (updateResponse.error) {
+      console.log('Error updating categories:');
+    }
+    if (deleteResponse.error) {
+      console.log('Error deleting categories:');
+    }
+    if (addResponse.error) {
+      console.log('Error adding categories:');
+    }
+
+    getCategories();
+    if (deletedCategoriesIds.value.length > 0) {
+      await Promise.all([
+          store.refreshSummaryStatistics(),
+          store.setCategoryEntriesForDate(store.currentDate)
+      ]);
+    }
   }
-  if (deleteResponse.error) {
-    console.log('Error deleting categories:');
-  }
-  if (addResponse.error) {
-    console.log('Error adding categories:');
-  }
-
-  getCategories();
 }
 
 function addCategory() {
@@ -111,8 +122,10 @@ function addCategory() {
 }
 function deleteCategory(category: FormattedCategory) {
   categories.value = categories.value.filter(cat => cat.id !== category.id)
-  deletedCategoriesIds.value.push(category.id);
-  // TODO: Deleted logic
+  category.deleted = true;
+  if (category.id !== null) {
+    deletedCategoriesIds.value.push(category.id);
+  }
 }
 
 defineExpose({
@@ -120,6 +133,7 @@ defineExpose({
 })
 
 function getCategories() {
+  store.setCategories();
   categories.value = store.categories.map(category => ({
     id: category.id,
     name: category.name,
@@ -127,7 +141,7 @@ function getCategories() {
     showInputEl: false,
     edited: false,
     deleted: false
-  }));
+  })).sort((a, b) => a.name.localeCompare(b.name));
 }
 onMounted(() => {
   emit('opened', true);
