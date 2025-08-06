@@ -25,6 +25,7 @@ const categoryError = ref<string>('Category name is too long');
 const anyError = computed(() => showTimeError.value || showCategoryError.value || disableSaveButton.value);
 const editDialogRef = ref();
 const addDialogRef = ref();
+const activeTab = ref('edit'); // default-Wert
 
 function saveChanges() {
   if (editDialogRef.value) {
@@ -64,9 +65,9 @@ function cancelErrors() {
         </DialogDescription>
       </DialogHeader>
       <div>
-        <Tabs default-value="edit">
+        <Tabs v-model="activeTab">
           <div class="flex items-center mb-4">
-            <TabsList>
+            <TabsList >
               <TabsTrigger value="edit">
                 Edit Time
               </TabsTrigger>
@@ -80,6 +81,7 @@ function cancelErrors() {
           <TabsContent value="edit">
             <HomeCategoriesDialogEdit @toMuchTime="(show:boolean) => showTimeError = show" ref="editDialogRef"
                                       @opened="cancelErrors"
+                                      @move-to-add-category="activeTab = 'change'"
             />
           </TabsContent>
           <TabsContent value="change">
@@ -91,7 +93,7 @@ function cancelErrors() {
           </TabsContent>
         </Tabs>
       </div>
-      <DialogFooter class="mt-6">
+      <DialogFooter >
         <DialogClose>
           <Button variant="destructive" @click="cancelErrors">
             Cancel

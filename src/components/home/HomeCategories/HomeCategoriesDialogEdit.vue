@@ -16,7 +16,7 @@ interface FormattedCategory {
   color: string,
   formattedTime: number
 }
-const emit = defineEmits(['toMuchTime','opened'])
+const emit = defineEmits(['toMuchTime','opened', 'moveToAddCategory'])
 const store = useStore();
 const categoriesFormatted = ref<FormattedCategory[]>([]);
 const selectedDate = ref<CalendarDate>(store.currentDate);
@@ -91,6 +91,10 @@ function fillCategoryList(formattedCategories: FormattedCategory[]) {
   categoriesFormatted.value = formattedCategories.sort((a, b) => a.name.localeCompare(b.name));
 }
 
+function moveToAddCategory() {
+  emit('moveToAddCategory');
+}
+
 defineExpose({
   saveChanges
 })
@@ -128,6 +132,9 @@ onMounted(() => {
           <Button variant="secondary" @click="addTime(category,30)">+30min</Button>
         </div>
       </div>
+    </div>
+    <div class="text-center mt-5 font-bold">
+      <Button variant="outline" @click="moveToAddCategory">Add Category</Button>
     </div>
   </ScrollArea>
 </template>
