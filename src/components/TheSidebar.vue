@@ -8,7 +8,7 @@ import {
   SidebarGroupLabel, SidebarHeader,
   SidebarMenu,
   SidebarMenuButton,
-  SidebarMenuItem, SidebarTrigger,
+  SidebarMenuItem,
 } from "@/components/ui/sidebar"
 import {supabase} from "@/lib/supabaseClient.ts";
 import router from "@/router";
@@ -19,21 +19,25 @@ const items = [
     title: "Home",
     url: "/home",
     icon: Home,
+    deactivated: false,
   },
   {
     title: "Data",
-    url: "/data",
+    url: "/home",
     icon: Database,
+    deactivated: true,
   },
   {
     title: "Analytics",
-    url: "/analytics",
+    url: "/home",
     icon: ChartArea,
+    deactivated: true,
   },
   {
     title: "Settings",
     url: "/settings",
     icon: Settings,
+    deactivated: false,
   },
 ];
 
@@ -49,9 +53,9 @@ async function logout() {
 </script>
 
 <template>
-  <Sidebar collapsible="icon">
+  <Sidebar collapsible="icon" class="!border-none" style="background-color: hsl(var(--sidebar-secondary));">
     <SidebarHeader>
-      <SidebarTrigger />
+
     </SidebarHeader>
     <SidebarContent>
       <SidebarGroup>
@@ -60,9 +64,13 @@ async function logout() {
           <SidebarMenu>
             <SidebarMenuItem v-for="item in items" :key="item.title" >
               <SidebarMenuButton asChild>
-                <a :href="item.url">
+                <a v-if="!item.deactivated" :href="item.url">
                   <component :is="item.icon" />
                   <span>{{item.title}}</span>
+                </a>
+                <a v-else style="pointer-events: none; cursor: default;">
+                  <component :is="item.icon" class="text-gray-400" />
+                  <span class="text-gray-400">Soon</span>
                 </a>
               </SidebarMenuButton>
             </SidebarMenuItem>
