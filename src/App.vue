@@ -29,33 +29,15 @@ onMounted(() => {
 <template>
   <SidebarProvider :default-open="false">
     <TheSidebar v-if="!route.meta.publicPage"/>
-    <main>
-      <div class="h-4 ml-3 mt-4 mb-3 flex items-center">
+    <main class="flex flex-col h-screen w-full">
+      <div class="h-4 ml-4 mt-4 mb-3 flex items-center">
         <SidebarTrigger />
         <Separator class="ml-1 mr-3" orientation="vertical"/>
         <h1 class="font-medium">Dashboard</h1>
       </div>
       <Separator />
-      <router-view />
+      <router-view class="flex-1 flex flex-col overflow-auto"/>
       <slot />
     </main>
   </SidebarProvider>
 </template>
-
-<style scoped>
-main {
-  width: 100%;
-}
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.vue:hover {
-  filter: drop-shadow(0 0 2em #42b883aa);
-}
-</style>

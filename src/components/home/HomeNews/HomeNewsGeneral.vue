@@ -20,11 +20,8 @@ const monthProgress = computed(() => ((100 / endOfMonth.getDate()) * now.getDate
         :title="`${yearProgress.toFixed(0)}% of the year is over!`"
         v-model="yearProgress"/>
     <ProgressBar
-        :title="`${daysLeftInMonth} days left in the month!`"
+        :title="`${daysLeftInMonth} days left this month!`"
         v-model="monthProgress"
         class="mt-6"/>
  </div>
 </template>
-
-<style scoped>
-</style>

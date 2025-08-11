@@ -14,9 +14,9 @@ onMounted(async () => {
 </script>
 
 <template>
-  <div class="main-container">
-    <div class="body max-md:space-y-4 md:grid md:grid-cols-[1fr_2fr_1fr] gap-4 mx-4 mb-4 mt-2 ">
-      <div class="bg-card column rounded-xl border p-4">
+  <div class="flex flex-col flex-1 h-full">
+    <div class="body flex-1 max-md:space-y-4 md:grid md:grid-cols-[1fr_2fr_1fr] gap-5 mx-5 mb-5 mt-5">
+      <div class="bg-card column rounded-xl border p-4 ">
         <HomeNews />
       </div>
       <div class="bg-card column rounded-xl border p-4">
@@ -28,23 +28,3 @@ onMounted(async () => {
     </div>
   </div>
 </template>
-
-<style scoped>
-.main-container {
-  display: flex;
-  flex-direction: column;
-  height: 100%;
-}
-
-.header {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
-  height: 4%;
-}
-
-.body {
-  height: 96%;
-}
-</style>
