@@ -17,7 +17,7 @@ const selectValue = defineModel<string>()
       Summary
     </p>
     <Select v-model="selectValue">
-      <SelectTrigger class="w-[160px]">
+      <SelectTrigger class="w-[200px]">
         <SelectValue :placeholder="selectValue"/>
       </SelectTrigger>
       <SelectContent>
