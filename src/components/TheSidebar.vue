@@ -48,7 +48,7 @@ async function logout() {
 </script>
 
 <template>
-  <Sidebar collapsible="icon" class="!border-none" style="background-color: hsl(var(--sidebar-secondary));">
+  <Sidebar collapsible="icon" class="!border-none" style="background-color: var(--sidebar-secondary)">
     <SidebarHeader>
 
     </SidebarHeader>
