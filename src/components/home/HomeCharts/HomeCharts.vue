@@ -67,25 +67,12 @@ watch(() => selectedFilter.value, () => {
 </script>
 
 <template>
-  <div class="main-container">
+  <div class="flex flex-col h-full">
     <HomeChartsHeader v-model="selectedFilter"/>
-    <div class="donutchart-container mt-20">
-      <HomeChartsDonut :entries="donutData" :colors="colors"/>
+    <div class="flex flex-1 justify-center items-center" >
+      <div class="flex flex-col w-full h-full justify-center items-center" >
+        <HomeChartsDonut :entries="donutData" :colors="colors" />
+      </div>
     </div>
   </div>
 </template>
-
-<style scoped>
-.main-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-.donutchart-container {
-  display: flex;
-  justify-content: center;
-  width: 100%;
-  flex-grow: 1;
-}
-</style>

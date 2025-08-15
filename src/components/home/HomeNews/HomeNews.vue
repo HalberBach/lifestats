@@ -7,7 +7,3 @@ import HomeNewsGeneral from "@/components/home/HomeNews/HomeNewsGeneral.vue";
     <HomeNewsGeneral />
   </div>
 </template>
-
-<style scoped>
-
-</style>
