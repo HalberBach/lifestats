@@ -45,6 +45,9 @@ function verifyInput(category: FormattedCategory) {
   } else if (category.name.length === 0) {
     emit('error', true);
     emit('errorMessage', 'Category name cannot be empty');
+  } else if (categories.value.some(cat => cat.name === category.name && cat.id !== category.id)) {
+    emit('error', true);
+    emit('errorMessage', 'Category name already exists');
   } else {
     emit('error', false);
   }
@@ -165,7 +168,9 @@ onMounted(() => {
       </div>
       <div class="flex gap-3" v-if="category.showInputEl">
         <Button class="w-[40px]" variant="default" @click="toggleInputEl(category)"
-                :disabled="category.name.length > 20 || category.name.length === 0">
+                :disabled="category.name.length > 20 ||
+                 category.name.length === 0 ||
+                 categories.some(cat => cat.name === category.name && cat.id !== category.id)">
           <Check />
         </Button>
         <Button class="w-[40px]" variant="ghost" disabled></Button>

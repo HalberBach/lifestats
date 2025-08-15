@@ -14,23 +14,30 @@ onMounted(async () => {
 </script>
 
 <template>
-  <div class="grid grid-cols-[2fr_1fr] gap-4 h-screen p-4">
+  <div class="grid md:grid-cols-[2fr_1fr] grid-cols-1 gap-4 h-screen p-4">
     <!-- Linke Spalte -->
-    <div class="grid grid-cols-2 grid-rows-[25%_75%] gap-4 h-full">
+    <div
+        class="grid md:grid-cols-2 md:grid-rows-[25%_auto] grid-cols-1 auto-rows-min gap-4 h-full order-1"
+    >
       <div class="bg-card border rounded-xl p-4">
         <HomeNews />
       </div>
-      <div class="bg-card border rounded-xl p-4">
-        <span class="flex h-full justify-center items-center text-2xl font-bold text-muted-foreground">Coming Soon</span>
+
+      <div class="bg-card border rounded-xl p-4 hidden md:block">
+        <span class="flex h-full justify-center items-center text-2xl font-bold text-muted-foreground">
+          Coming Soon
+        </span>
       </div>
-      <div class="bg-card border rounded-xl p-4 col-span-2 mb-4" >
+
+      <div class="bg-card border rounded-xl p-4 md:col-span-2 ">
         <HomeCharts />
       </div>
     </div>
 
     <!-- Rechte Spalte -->
-    <div class="bg-card border rounded-xl p-4">
+    <div class="bg-card border rounded-xl p-4 order-2">
       <HomeCategories />
     </div>
   </div>
 </template>
+
