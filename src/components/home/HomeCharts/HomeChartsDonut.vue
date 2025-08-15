@@ -12,7 +12,7 @@ const props = defineProps<{
 
 <template>
   <DonutChart
-      class="w-full h-3/4"
+      class="w-3/5 h-3/4"
       index="name"
       :category="'total'"
       :data="entries"

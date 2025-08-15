@@ -70,7 +70,7 @@ watch(() => selectedFilter.value, () => {
   <div class="flex flex-col h-full">
     <HomeChartsHeader v-model="selectedFilter"/>
     <div class="flex flex-1 justify-center items-center" >
-      <div class="flex flex-col w-full h-full justify-center" >
+      <div class="flex flex-col w-full h-full justify-center items-center" >
         <HomeChartsDonut :entries="donutData" :colors="colors" />
       </div>
     </div>

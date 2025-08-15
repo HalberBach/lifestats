@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import {Home, ChartArea, Database, Settings, LogOut } from "lucide-vue-next"
+import {Home, ChartArea, Database, LogOut } from "lucide-vue-next"
 import {
   Sidebar,
   SidebarContent,
@@ -12,6 +12,7 @@ import {
 } from "@/components/ui/sidebar"
 import {supabase} from "@/lib/supabaseClient.ts";
 import router from "@/router";
+import SettingsView from "@/views/SettingsView.vue";
 
 // Menu items.
 const items = [
@@ -32,12 +33,6 @@ const items = [
     url: "/home",
     icon: ChartArea,
     deactivated: true,
-  },
-  {
-    title: "Settings",
-    url: "/settings",
-    icon: Settings,
-    deactivated: false,
   },
 ];
 
@@ -73,6 +68,9 @@ async function logout() {
                   <span class="text-gray-400">Soon</span>
                 </a>
               </SidebarMenuButton>
+            </SidebarMenuItem>
+            <SidebarMenuItem>
+              <SettingsView />
             </SidebarMenuItem>
             <SidebarMenuItem class="mt-4">
               <SidebarMenuButton asChild @click="logout">
