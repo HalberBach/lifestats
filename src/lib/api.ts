@@ -94,6 +94,7 @@ export default function useApi() {
      * @param ids - Array of category IDs to fully delete.
      */
     async function fullyDeleteCategories(ids: number[]){
+        console.log(ids)
         await Promise.all(ids.map(async (id) => {
             const { data, error } = await supabase
                 .from('category')

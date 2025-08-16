@@ -53,6 +53,7 @@ function saveChanges() {
 function cancelErrors() {
   showTimeError.value = false;
   showCategoryError.value = false;
+  disableSaveButton.value = false;
 }
 
 watch(activeTab, () => {
@@ -116,7 +117,10 @@ watch(activeTab, () => {
       <DialogHeader>
         <DialogTitle>Edit</DialogTitle>
         <DialogDescription>
-          Edit your spend time or add new categories.
+          Edit your spend time or configure your categories.
+        </DialogDescription>
+        <DialogDescription v-if="activeTab === 'change'">
+          Tip: Click on the color to change it.
         </DialogDescription>
       </DialogHeader>
       <GridForm />
@@ -145,7 +149,7 @@ watch(activeTab, () => {
       <DrawerHeader class="text-left">
         <DrawerTitle>Edit</DrawerTitle>
         <DrawerDescription>
-          Edit your spend time or add new categories.
+          Edit your spend time or configure your categories.
         </DrawerDescription>
       </DrawerHeader>
       <GridForm />

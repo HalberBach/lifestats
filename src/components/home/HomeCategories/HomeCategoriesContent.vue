@@ -26,7 +26,7 @@ const entriesForDate = computed(() => {
 
 <template>
   <div class="mt-8 flex-col w-full">
-    <div v-if="entriesForDate" class="flex items-center justify-between mb-5" v-for="category in entriesForDate" :key="category.id || category.categoryId">
+    <div v-if="entriesForDate.length > 0" class="flex items-center justify-between mb-5" v-for="category in entriesForDate" :key="category.id || category.categoryId">
       <div class="flex items-center">
         <div class="w-4 h-4 rounded-full" :style="{ backgroundColor: category.color }"></div>
         <p class="ml-4">{{ category.name }}</p>

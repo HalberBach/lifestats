@@ -129,12 +129,15 @@ onMounted(() => {
         <div>
           <Input class="w-16" @input="verifyInput" v-model="category.formattedTime" @blur="category.formattedTime = parseFloat(category.formattedTime) || 0"/>
         </div>
-        <div class="flex items-center md:ml-6 ml-2 gap-2 ">
+        <div class="flex items-center md:ml-4 ml-2 gap-2 ">
           <Button
               variant="secondary"
               class="hidden md:block"
               @click="addTime(category, 15)">+0.25h</Button>
-          <Button variant="secondary" @click="addTime(category,30)">+0.5h</Button>
+          <Button
+              variant="secondary"
+              @click="addTime(category,30)"
+              class="mr-2">+0.5h</Button>
         </div>
       </div>
     </div>
