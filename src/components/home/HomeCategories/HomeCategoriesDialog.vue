@@ -9,6 +9,16 @@ import {
   DialogTitle,
   DialogTrigger,
 } from '@/components/ui/dialog'
+import {
+  Drawer,
+  DrawerClose,
+  DrawerContent,
+  DrawerDescription,
+  DrawerFooter,
+  DrawerHeader,
+  DrawerTitle,
+  DrawerTrigger,
+} from "@/components/ui/drawer"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import {Pencil} from "lucide-vue-next";
 import {computed, ref, watch} from "vue";
@@ -16,6 +26,7 @@ import HomeCategoriesDialogEdit from "@/components/home/HomeCategories/HomeCateg
 import HomeCategoriesDialogAdd from "@/components/home/HomeCategories/HomeCategoriesDialogAdd.vue";
 import {Label} from "@/components/ui/label";
 import {Tooltip, TooltipContent, TooltipProvider, TooltipTrigger} from "@/components/ui/tooltip";
+import {createReusableTemplate, useMediaQuery} from "@vueuse/core";
 
 const showTimeError = ref<boolean>(false);
 const showCategoryError = ref<boolean>(false);
@@ -26,6 +37,10 @@ const anyError = computed(() => showTimeError.value || showCategoryError.value |
 const editDialogRef = ref();
 const addDialogRef = ref();
 const activeTab = ref('edit'); // default-Wert
+
+const [UseTemplate, GridForm] = createReusableTemplate()
+const isDesktop = useMediaQuery("(min-width: 768px)")
+const isOpen = ref(false)
 
 function saveChanges() {
   if (editDialogRef.value) {
@@ -46,7 +61,43 @@ watch(activeTab, () => {
 </script>
 
 <template>
-  <Dialog>
+  <!-- Template -->
+  <UseTemplate>
+    <div>
+      <Tabs v-model="activeTab">
+        <div class="flex items-center mb-4">
+          <TabsList >
+            <TabsTrigger value="edit">
+              Edit Time
+            </TabsTrigger>
+            <TabsTrigger value="change">
+              Change Categories
+            </TabsTrigger>
+          </TabsList>
+          <Label v-if="showTimeError" class="ml-4 text-red-500">{{ timeError }}</Label>
+          <Label v-if="showCategoryError" class="ml-4 text-red-500">{{ categoryError }}</Label>
+        </div>
+        <div class="px-4 md:px-0">
+          <TabsContent value="edit">
+            <HomeCategoriesDialogEdit @toMuchTime="(show:boolean) => showTimeError = show" ref="editDialogRef"
+                                      @opened="cancelErrors"
+                                      @move-to-add-category="activeTab = 'change'"
+            />
+          </TabsContent>
+          <TabsContent value="change">
+            <HomeCategoriesDialogAdd @error="(show:boolean) => showCategoryError = show"
+                                     @errorMessage="(message:string) => categoryError = message"
+                                     @editMode="(show:boolean) => disableSaveButton = show"
+                                     @opened="cancelErrors"
+                                     ref="addDialogRef"/>
+          </TabsContent>
+        </div>
+      </Tabs>
+    </div>
+  </UseTemplate>
+  <!-- ----------------------------- -->
+
+  <Dialog v-if="isDesktop" v-model:open="isOpen">
     <DialogTrigger>
       <TooltipProvider>
         <Tooltip>
@@ -65,38 +116,10 @@ watch(activeTab, () => {
       <DialogHeader>
         <DialogTitle>Edit</DialogTitle>
         <DialogDescription>
-          Edit your spend time or change the categories.
+          Edit your spend time or add new categories.
         </DialogDescription>
       </DialogHeader>
-      <div>
-        <Tabs v-model="activeTab">
-          <div class="flex items-center mb-4">
-            <TabsList >
-              <TabsTrigger value="edit">
-                Edit Time
-              </TabsTrigger>
-              <TabsTrigger value="change">
-                Change Categories
-              </TabsTrigger>
-            </TabsList>
-            <Label v-if="showTimeError" class="ml-4 text-red-500">{{ timeError }}</Label>
-            <Label v-if="showCategoryError" class="ml-4 text-red-500">{{ categoryError }}</Label>
-          </div>
-          <TabsContent value="edit">
-            <HomeCategoriesDialogEdit @toMuchTime="(show:boolean) => showTimeError = show" ref="editDialogRef"
-                                      @opened="cancelErrors"
-                                      @move-to-add-category="activeTab = 'change'"
-            />
-          </TabsContent>
-          <TabsContent value="change">
-            <HomeCategoriesDialogAdd @error="(show:boolean) => showCategoryError = show"
-                                     @errorMessage="(message:string) => categoryError = message"
-                                     @editMode="(show:boolean) => disableSaveButton = show"
-                                     @opened="cancelErrors"
-                                     ref="addDialogRef"/>
-          </TabsContent>
-        </Tabs>
-      </div>
+      <GridForm />
       <DialogFooter >
         <DialogClose>
           <Button variant="destructive" @click="cancelErrors">
@@ -107,9 +130,37 @@ watch(activeTab, () => {
           <Button :disabled="anyError" @click="saveChanges">
             Save changes
           </Button>
-          <p>{{ anyError }}</p>
         </DialogClose>
       </DialogFooter>
     </DialogContent>
   </Dialog>
+
+  <Drawer v-else v-model:open="isOpen">
+    <DrawerTrigger as-child>
+      <Button class="w-[40px]" variant="ghost">
+        <Pencil/>
+      </Button>
+    </DrawerTrigger>
+    <DrawerContent>
+      <DrawerHeader class="text-left">
+        <DrawerTitle>Edit</DrawerTitle>
+        <DrawerDescription>
+          Edit your spend time or add new categories.
+        </DrawerDescription>
+      </DrawerHeader>
+      <GridForm />
+      <DrawerFooter class="pt-2">
+        <DrawerClose as-child>
+          <Button variant="destructive" @click="cancelErrors">
+            Cancel
+          </Button>
+        </DrawerClose>
+        <DrawerClose as-child>
+          <Button :disabled="anyError" @click="saveChanges">
+            Save changes
+          </Button>
+        </DrawerClose>
+      </DrawerFooter>
+    </DrawerContent>
+  </Drawer>
 </template>
