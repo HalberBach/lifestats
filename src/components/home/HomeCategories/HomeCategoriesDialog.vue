@@ -11,7 +11,7 @@ import {
 } from '@/components/ui/dialog'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import {Pencil} from "lucide-vue-next";
-import {computed, ref} from "vue";
+import {computed, ref, watch} from "vue";
 import HomeCategoriesDialogEdit from "@/components/home/HomeCategories/HomeCategoriesDialogEdit.vue";
 import HomeCategoriesDialogAdd from "@/components/home/HomeCategories/HomeCategoriesDialogAdd.vue";
 import {Label} from "@/components/ui/label";
@@ -39,6 +39,10 @@ function cancelErrors() {
   showTimeError.value = false;
   showCategoryError.value = false;
 }
+
+watch(activeTab, () => {
+  disableSaveButton.value = false;
+});
 </script>
 
 <template>
@@ -103,12 +107,9 @@ function cancelErrors() {
           <Button :disabled="anyError" @click="saveChanges">
             Save changes
           </Button>
+          <p>{{ anyError }}</p>
         </DialogClose>
       </DialogFooter>
     </DialogContent>
   </Dialog>
 </template>
-
-<style scoped>
-
-</style>
