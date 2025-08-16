@@ -1,5 +1,17 @@
 <script setup lang="ts">
 import RegisterForm from "@/components/RegisterForm.vue";
+import router from "@/router";
+import {onMounted} from "vue";
+import {supabase} from "@/lib/supabaseClient.ts";
+
+onMounted(async () => {
+  const { data: { session } } = await supabase.auth.getSession();
+
+  if (session) {
+    // User ist eingeloggt → direkt weiterleiten
+    router.push('/home');
+  }
+});
 </script>
 
 <template>

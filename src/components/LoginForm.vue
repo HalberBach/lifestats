@@ -17,7 +17,11 @@ import {useUserStore} from "@/store/userstore.ts";
 const router = useRouter()
 const userStore = useUserStore()
 const email = ref<string>()
+const emailError = ref<boolean>(false)
+const emailErrorText = ref<string>("Please enter a valid email address")
 const password = ref<string>()
+const passwordError = ref<boolean>(false)
+const passwordErrorText = ref<string>("Password invalid")
 
 async function login() {
   let { data, error } = await supabase.auth.signInWithPassword({
@@ -29,7 +33,28 @@ async function login() {
     userStore.user = data.user
     await router.push('/home')
   } else {
-    console.log("login error", error)
+    passwordError.value = true
+    console.log("login error: ", error)
+  }
+}
+async function forgotPasswort() {
+  emailError.value = false
+  if (email.value) {
+    await supabase.auth.resetPasswordForEmail(email.value, {
+      redirectTo: `${window.location.origin}/reset-password`
+    })
+    .then(() => {
+      console.log("Password reset email sent")
+      router.push('/forgot-password')
+    })
+    .catch((error) => {
+      console.error("Error sending password reset email:", error)
+      emailError.value = true
+      emailErrorText.value = "Error sending password reset email. Please try again later."
+    })
+  } else {
+    emailError.value = true
+    emailErrorText.value = "Please enter your email address"
   }
 }
 </script>
@@ -74,6 +99,7 @@ async function login() {
                   placeholder="m@example.com"
                   required
                 />
+                <p v-if="emailError" class="flex justify-center text-red-500">{{ emailErrorText }}</p>
               </div>
               <div class="grid gap-2">
                 <div class="flex items-center">
@@ -81,6 +107,7 @@ async function login() {
                   <a
                     href="#"
                     class="ml-auto text-sm underline-offset-4 hover:underline"
+                    @click.prevent="forgotPasswort"
                   >
                     Forgot your password?
                   </a>
