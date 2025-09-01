@@ -7,7 +7,7 @@ const store = useStore();
 </script>
 
 <template>
-  <div class="grid grid-cols-7 gap-2 w-1/2 mb-2 pt-1">
+  <div class="grid grid-cols-7 gap-2 w-full md:w-1/2 mb-2 pt-3 md:pt-1">
     <div
         v-for="color in store.colorPickerColors"
         :key="color"

@@ -113,6 +113,7 @@ async function forgotPasswort() {
                   </a>
                 </div>
                 <Input id="password" type="password" v-model="password" required />
+                <p v-if="passwordError" class="flex justify-center text-red-500">{{ passwordErrorText }}</p>
               </div>
               <Button type="submit" class="w-full" >
                 Login
