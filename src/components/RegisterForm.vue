@@ -15,6 +15,8 @@ const emailError = ref<string>('')
 const showEmailError = ref<boolean>(false)
 const passwordError = ref<string>('')
 const showPasswordError = ref<boolean>(false)
+const registerError = ref<string>('Error creating account')
+const showRegisterError = ref<boolean>(false)
 
 function validateEmail() {
   const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -33,7 +35,7 @@ function validateInput() {
   }
   if (!validatePassword()) {
     showPasswordError.value = true
-    passwordError.value = 'Must be at least 6 characters long'
+    passwordError.value = 'Password is too weak.'
   } else {
     showPasswordError.value = false
   }
@@ -48,6 +50,13 @@ async function registerWithEmailAndPassword() {
       password: password.value
     })
 
+    if (error) {
+      registerError.value = 'Error creating account'
+      showRegisterError.value = true
+    } else {
+      showRegisterError.value = false
+      await router.push('/login')
+    }
   }
 }
 </script>
@@ -85,6 +94,9 @@ async function registerWithEmailAndPassword() {
         <Button type="submit" class="w-full" @click="registerWithEmailAndPassword">
           Register
         </Button>
+        <div>
+          <p v-if="showRegisterError" class="flex justify-center text-red-500 font-light w-full max-w-xs">{{ registerError }}</p>
+        </div>
         <div class="relative text-center text-sm after:absolute after:inset-0 after:top-1/2 after:z-0 after:flex after:items-center after:border-t after:border-border">
               <span class="relative z-10 bg-background px-2 text-muted-foreground">
                 Or continue with

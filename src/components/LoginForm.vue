@@ -24,19 +24,37 @@ const passwordError = ref<boolean>(false)
 const passwordErrorText = ref<string>("Password invalid")
 
 async function login() {
-  let { data, error } = await supabase.auth.signInWithPassword({
-    email: email.value,
-    password: password.value
-  })
-  if (!error && data) {
+  emailError.value = false
+  passwordError.value = false
+
+  try {
+    let { data, error } = await supabase.auth.signInWithPassword({
+      email: email.value,
+      password: password.value
+    })
+
+    if (error) {
+      if (error.status === 400) {
+        emailError.value = true
+        emailErrorText.value = "Invalid email or password. Check if you confirmed your email."
+      } else {
+        console.error("Unexpected error during login:", error)
+        passwordError.value = true
+        passwordErrorText.value = "Login failed. Please try again later."
+      }
+      return
+    }
+
     console.log("login success")
     userStore.user = data.user
     await router.push('/home')
-  } else {
+  } catch (err) {
+    console.error("Error during login process:", err)
     passwordError.value = true
-    console.log("login error: ", error)
+    passwordErrorText.value = "An error occurred. Please try again later."
   }
 }
+
 async function forgotPasswort() {
   emailError.value = false
   if (email.value) {
