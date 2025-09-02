@@ -1,17 +1,6 @@
 <script setup lang="ts">
-import LoginForm from "@/components/LoginForm.vue";
-import router from "@/router";
-import {onMounted} from "vue";
-import {supabase} from "@/lib/supabaseClient.ts";
 
-onMounted(async () => {
-  const { data: { session } } = await supabase.auth.getSession();
-
-  if (session) {
-    // User ist eingeloggt → direkt weiterleiten
-    router.push('/home');
-  }
-});
+import {Card, CardDescription, CardHeader, CardTitle} from "@/components/ui/card";
 </script>
 
 <template>
@@ -23,7 +12,18 @@ onMounted(async () => {
         </div>
         Lifestats
       </a>
-      <LoginForm />
+      <div class="flex flex-col gap-6">
+        <Card>
+          <CardHeader class="text-center">
+            <CardTitle class="text-xl">
+              Resetting Password
+            </CardTitle>
+            <CardDescription>
+              An Email to reset your password has been sent to your email address.
+            </CardDescription>
+          </CardHeader>
+        </Card>
+      </div>
     </div>
   </div>
 </template>

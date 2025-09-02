@@ -17,19 +17,62 @@ import {useUserStore} from "@/store/userstore.ts";
 const router = useRouter()
 const userStore = useUserStore()
 const email = ref<string>()
+const emailError = ref<boolean>(false)
+const emailErrorText = ref<string>("Please enter a valid email address")
 const password = ref<string>()
+const passwordError = ref<boolean>(false)
+const passwordErrorText = ref<string>("Password invalid")
 
 async function login() {
-  let { data, error } = await supabase.auth.signInWithPassword({
-    email: email.value,
-    password: password.value
-  })
-  if (!error && data) {
+  emailError.value = false
+  passwordError.value = false
+
+  try {
+    let { data, error } = await supabase.auth.signInWithPassword({
+      email: email.value,
+      password: password.value
+    })
+
+    if (error) {
+      if (error.status === 400) {
+        emailError.value = true
+        emailErrorText.value = "Invalid email or password. Check if you confirmed your email."
+      } else {
+        console.error("Unexpected error during login:", error)
+        passwordError.value = true
+        passwordErrorText.value = "Login failed. Please try again later."
+      }
+      return
+    }
+
     console.log("login success")
     userStore.user = data.user
     await router.push('/home')
+  } catch (err) {
+    console.error("Error during login process:", err)
+    passwordError.value = true
+    passwordErrorText.value = "An error occurred. Please try again later."
+  }
+}
+
+async function forgotPasswort() {
+  emailError.value = false
+  if (email.value) {
+    await supabase.auth.resetPasswordForEmail(email.value, {
+      redirectTo: `${window.location.origin}/reset-password`
+    })
+    .then(() => {
+      console.log("Password reset email sent")
+      router.push('/forgot-password')
+    })
+    .catch((error) => {
+      console.error("Error sending password reset email:", error)
+      emailError.value = true
+      emailErrorText.value = "Error sending password reset email. Please try again later."
+    })
   } else {
-    console.log("login error", error)
+    emailError.value = true
+    emailErrorText.value = "Please enter your email address"
   }
 }
 </script>
@@ -74,6 +117,7 @@ async function login() {
                   placeholder="m@example.com"
                   required
                 />
+                <p v-if="emailError" class="flex justify-center text-red-500">{{ emailErrorText }}</p>
               </div>
               <div class="grid gap-2">
                 <div class="flex items-center">
@@ -81,11 +125,13 @@ async function login() {
                   <a
                     href="#"
                     class="ml-auto text-sm underline-offset-4 hover:underline"
+                    @click.prevent="forgotPasswort"
                   >
                     Forgot your password?
                   </a>
                 </div>
                 <Input id="password" type="password" v-model="password" required />
+                <p v-if="passwordError" class="flex justify-center text-red-500">{{ passwordErrorText }}</p>
               </div>
               <Button type="submit" class="w-full" >
                 Login
