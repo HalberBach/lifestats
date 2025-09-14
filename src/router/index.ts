@@ -7,6 +7,8 @@ import RegisterView from "@/views/RegisterView.vue";
 import StartView from "@/views/StartView.vue";
 import {useUserStore} from "@/store/userstore.ts";
 import {supabase} from "@/lib/supabaseClient.ts";
+import ForgotPasswordView from "@/views/ForgotPasswordView.vue";
+import ResetPasswordView from "@/views/ResetPasswordView.vue";
 
 let authInitialized = false;
 
@@ -47,6 +49,22 @@ const routes = [
         path: '/register',
         name: 'Register',
         component: RegisterView,
+        meta: {
+            publicPage: true
+        }
+    },
+    {
+        path: '/forgot-password',
+        name: "ForgotPassword",
+        component: ForgotPasswordView,
+        meta: {
+            publicPage: true
+        }
+    },
+    {
+        path: '/reset-password',
+        name: "ResetPassword",
+        component: ResetPasswordView,
         meta: {
             publicPage: true
         }

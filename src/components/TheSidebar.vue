@@ -1,17 +1,18 @@
 <script setup lang="ts">
-import {Home, ChartArea, Database, Settings, LogOut } from "lucide-vue-next"
+import {Home, ChartArea, Database, LogOut } from "lucide-vue-next"
 import {
   Sidebar,
   SidebarContent,
   SidebarGroup,
   SidebarGroupContent,
-  SidebarGroupLabel, SidebarHeader,
+  SidebarGroupLabel,
   SidebarMenu,
   SidebarMenuButton,
-  SidebarMenuItem, SidebarTrigger,
+  SidebarMenuItem,
 } from "@/components/ui/sidebar"
 import {supabase} from "@/lib/supabaseClient.ts";
 import router from "@/router";
+import SettingsView from "@/views/SettingsView.vue";
 
 // Menu items.
 const items = [
@@ -19,21 +20,19 @@ const items = [
     title: "Home",
     url: "/home",
     icon: Home,
+    deactivated: false,
   },
   {
     title: "Data",
-    url: "/data",
+    url: "/home",
     icon: Database,
+    deactivated: true,
   },
   {
     title: "Analytics",
-    url: "/analytics",
+    url: "/home",
     icon: ChartArea,
-  },
-  {
-    title: "Settings",
-    url: "/settings",
-    icon: Settings,
+    deactivated: true,
   },
 ];
 
@@ -49,22 +48,27 @@ async function logout() {
 </script>
 
 <template>
-  <Sidebar collapsible="icon">
-    <SidebarHeader>
-      <SidebarTrigger />
-    </SidebarHeader>
+  <Sidebar collapsible="icon" class="!border-none" style="background-color: var(--sidebar-secondary)">
+
     <SidebarContent>
       <SidebarGroup>
-        <SidebarGroupLabel>Application</SidebarGroupLabel>
+        <SidebarGroupLabel>Lifestats</SidebarGroupLabel>
         <SidebarGroupContent>
           <SidebarMenu>
             <SidebarMenuItem v-for="item in items" :key="item.title" >
               <SidebarMenuButton asChild>
-                <a :href="item.url">
+                <a v-if="!item.deactivated" :href="item.url">
                   <component :is="item.icon" />
                   <span>{{item.title}}</span>
                 </a>
+                <a v-else style="pointer-events: none; cursor: default;">
+                  <component :is="item.icon" class="text-gray-400" />
+                  <span class="text-gray-400">Soon</span>
+                </a>
               </SidebarMenuButton>
+            </SidebarMenuItem>
+            <SidebarMenuItem>
+              <SettingsView />
             </SidebarMenuItem>
             <SidebarMenuItem class="mt-4">
               <SidebarMenuButton asChild @click="logout">

@@ -18,6 +18,40 @@ export const useStore = defineStore('store', () => {
     const categoryEntriesLast30Days = ref<DonutData[]>([]);
     const categoryEntriesTotalTime = ref<DonutData[]>([]);
 
+    const colorPickerColors = [
+        // Blau-Violett
+        "#003f5c", // dunkelblau
+        "#2f4b7c", // blaugrau
+        "#665191", // violett
+        "#a05195", // lila
+
+        // Rot-Pink
+        "#d45087", // pinkrot
+        "#f95d6a", // rot
+        "#ff7c43", // orange-rot
+        "#ffa600", // gelb-orange
+
+        // Grün
+        "#2ca02c", // sattgrün
+        "#3fbf7f", // türkis-grün
+        "#17becf", // türkis
+        "#1f77b4", // klassisches blau
+
+        // Lila / Magenta
+        "#9467bd", // helleres lila
+        "#e377c2", // magenta-pink
+
+        // Gelb / Orange
+        "#ffb84d", // hellorange
+        "#ffe066", // gelblich
+
+        // Neutrale / Akzentfarben
+        "#bcbd22", // olivgelb
+        "#7f7f7f", // grau
+        "#8c564b", // erdiges braun
+        "#4c4c9d"  // kräftiges blau-lila
+    ];
+
     async function init() {
         currentDate.value = new CalendarDate(new Date().getFullYear(), new Date().getMonth() + 1, new Date().getDate())
         await Promise.all([
@@ -89,6 +123,7 @@ export const useStore = defineStore('store', () => {
         refreshSummaryStatistics,
         categoryEntriesLast30Days,
         categoryEntriesTotalTime,
+        colorPickerColors,
         currentDate };
     }, {
     persist: true

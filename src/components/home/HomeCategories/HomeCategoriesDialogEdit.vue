@@ -118,18 +118,26 @@ onMounted(() => {
   </div>
   <ScrollArea class="h-[396px] mt-3">
     <div v-for="category in categoriesFormatted" :key="category.categoryId"
-         class="flex items-center gap-4 pt-3">
-      <div class="w-3 h-3 rounded-full" :style="{ backgroundColor: category.color }"></div>
-      <p class="w-1/3">
-        {{ category.name }}
-      </p>
+         class="flex items-center gap-4 pt-3 md:justify-normal justify-between">
+      <div class="flex items-center gap-4 w-2/3">
+        <div class="w-3 h-3 rounded-full" :style="{ backgroundColor: category.color }"></div>
+        <p class="w-4/5">
+          {{ category.name }}
+        </p>
+      </div>
       <div class="flex items-center">
         <div>
           <Input class="w-16" @input="verifyInput" v-model="category.formattedTime" @blur="category.formattedTime = parseFloat(category.formattedTime) || 0"/>
         </div>
-        <div class="flex items-center ml-6 gap-2 ">
-          <Button variant="secondary" @click="addTime(category, 15)">+15min</Button>
-          <Button variant="secondary" @click="addTime(category,30)">+30min</Button>
+        <div class="flex items-center md:ml-4 ml-2 gap-2 ">
+          <Button
+              variant="secondary"
+              class="hidden md:block"
+              @click="addTime(category, 15)">+0.25h</Button>
+          <Button
+              variant="secondary"
+              @click="addTime(category,30)"
+              class="mr-2">+0.5h</Button>
         </div>
       </div>
     </div>

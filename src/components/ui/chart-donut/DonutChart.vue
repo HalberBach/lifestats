@@ -74,7 +74,7 @@ const totalValue = computed(() => props.data.reduce((prev, curr) => {
         :value="(d: Data) => d[category]"
         :sort-function="sortFunction"
         :color="colors"
-        :arc-width="type === 'donut' ? 35 : 0"
+        :arc-width="type === 'donut' ? 40 : 0"
         :show-background="false"
         :central-label="type === 'donut' ? valueFormatter(totalValue) : ''"
         :events="{

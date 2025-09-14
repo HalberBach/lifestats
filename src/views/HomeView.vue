@@ -14,41 +14,30 @@ onMounted(async () => {
 </script>
 
 <template>
-  <div class="main-container">
-    <div class="header mx-4">
-      <span class="text-4xl font-bold">Home</span>
-      <span class="text-4xl">Lifestats</span>
-    </div>
-    <div class="body md:grid md:grid-cols-[1fr_2fr_1fr] gap-4 mx-4 mb-4 mt-2 ">
-      <div class="column rounded-lg border p-4">
+  <div class="grid md:grid-cols-[2fr_1fr] grid-cols-1 gap-4 h-screen p-4">
+    <!-- Linke Spalte -->
+    <div
+        class="grid md:grid-cols-2 md:grid-rows-[25%_auto] grid-cols-1 auto-rows-min gap-4 h-full order-1"
+    >
+      <div class="bg-card border rounded-xl p-4">
         <HomeNews />
       </div>
-      <div class="column rounded-lg border p-4">
+
+      <div class="bg-card border rounded-xl p-4 hidden md:block">
+        <span class="flex h-full justify-center items-center text-2xl font-bold text-muted-foreground">
+          Coming Soon
+        </span>
+      </div>
+
+      <div class="bg-card border rounded-xl p-4 md:col-span-2 ">
         <HomeCharts />
       </div>
-      <div class="column rounded-lg border p-4 ">
-        <HomeCategories />
-      </div>
+    </div>
+
+    <!-- Rechte Spalte -->
+    <div class="bg-card border rounded-xl p-4 order-2">
+      <HomeCategories />
     </div>
   </div>
 </template>
 
-<style scoped>
-.main-container {
-  display: flex;
-  flex-direction: column;
-  height: 100%;
-}
-
-.header {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
-  height: 4%;
-}
-
-.body {
-  height: 96%;
-}
-</style>

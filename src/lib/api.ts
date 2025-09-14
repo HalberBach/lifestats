@@ -52,7 +52,6 @@ export default function useApi() {
      */
     async function updateCategories(categories: Category[]) : Promise<boolean> {
         await Promise.all(categories.map(async (category) => {
-            console.log("Updating category:", category);
             const { data, error } = await supabase
                 .from('category')
                 .update({ 'name': category.name, 'color': category.color })
@@ -95,6 +94,7 @@ export default function useApi() {
      * @param ids - Array of category IDs to fully delete.
      */
     async function fullyDeleteCategories(ids: number[]){
+        console.log(ids)
         await Promise.all(ids.map(async (id) => {
             const { data, error } = await supabase
                 .from('category')
