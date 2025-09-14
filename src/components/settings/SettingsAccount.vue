@@ -49,7 +49,7 @@ async function deleteUser() {
   <div class="flex items-center justify-between pt-2">
     <Button v-if="!showDeleteAccountMenu" variant="destructive" @click="showDeleteAccountMenu = true">Delete Account</Button>
     <div v-if="showDeleteAccountMenu" class="flex w-full justify-between space-x-2">
-      <span class="ml-2">Are you sure?</span>
+      <span class="ml-2">Delete permanently?</span>
       <div class="flex gap-2">
         <Button variant="destructive" size="sm" @click="deleteUser">Yes, delete Account</Button>
         <Button variant="outline" size="sm" @click="showDeleteAccountMenu = false">Cancel</Button>
