@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import {Button} from "@/components/ui/button";
 import {useRouter} from "vue-router";
+import preview from '@/assets/preview.png';
+import preview_mobile from '@/assets/preview_mobile.png';
 
 const router = useRouter()
 </script>
@@ -18,7 +20,7 @@ const router = useRouter()
       <!-- Desktop -->
       <AspectRatio ratio="16/9" class="w-full sm:max-w-md md:max-w-3xl lg:max-w-4xl xl:max-w-6xl">
         <img
-            src="../../assets/preview.png"
+            :src="preview"
             alt="Preview"
             class="hidden sm:block border rounded-lg mx-auto shadow-lg shadow-gray-400"
         />
@@ -26,7 +28,7 @@ const router = useRouter()
 
       <!-- Mobile -->
       <img
-          src="../../assets/preview_mobile.png"
+          :src="preview_mobile"
           alt="Preview Mobile"
           class="block sm:hidden border rounded-lg mx-auto object-contain shadow-lg shadow-gray-400"
       />

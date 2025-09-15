@@ -3,6 +3,7 @@ import LoginForm from "@/components/LoginForm.vue";
 import router from "@/router";
 import {onMounted} from "vue";
 import {supabase} from "@/lib/supabaseClient.ts";
+import Icon from '@/assets/Icon.png';
 
 onMounted(async () => {
   const { data: { session } } = await supabase.auth.getSession();
@@ -19,7 +20,7 @@ onMounted(async () => {
     <div class="flex w-full max-w-sm flex-col gap-6">
       <a href="#" class="flex items-center gap-2 self-center font-medium">
         <div class="flex h-6 w-6 items-center justify-center ">
-          <img src="@/assets/icon4.png" alt="Logo" />
+          <img :src="Icon" alt="Logo" />
         </div>
         Lifestats
       </a>
