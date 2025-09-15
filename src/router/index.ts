@@ -9,6 +9,7 @@ import {useUserStore} from "@/store/userstore.ts";
 import {supabase} from "@/lib/supabaseClient.ts";
 import ForgotPasswordView from "@/views/ForgotPasswordView.vue";
 import ResetPasswordView from "@/views/ResetPasswordView.vue";
+import EmailConfirmationView from "@/views/EmailConfirmationView.vue";
 
 let authInitialized = false;
 
@@ -65,6 +66,14 @@ const routes = [
         path: '/reset-password',
         name: "ResetPassword",
         component: ResetPasswordView,
+        meta: {
+            publicPage: true
+        }
+    },
+    {
+        path: '/email-verify',
+        name: "EmailConfirmation",
+        component: EmailConfirmationView,
         meta: {
             publicPage: true
         }

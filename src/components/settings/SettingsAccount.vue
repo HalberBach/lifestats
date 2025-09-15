@@ -21,6 +21,12 @@ async function deleteUser() {
     return;
   }
 
+  const logoutError = await supabase.auth.signOut()
+  if (logoutError.error) {
+    console.error("Logout error")
+  }
+  await router.push('/')
+
   const response = await fetch(
       `${SUPABASE_URL}/functions/v1/delete-user`,
       {
@@ -39,7 +45,6 @@ async function deleteUser() {
     console.error('Delete failed:', result.error);
   } else {
     console.log('Delete succeeded:', result.message);
-    await router.push('/')
   }
 }
 </script>
