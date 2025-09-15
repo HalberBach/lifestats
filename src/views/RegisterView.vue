@@ -19,7 +19,7 @@ onMounted(async () => {
     <div class="flex w-full max-w-sm flex-col gap-6">
       <a href="#" class="flex items-center gap-2 self-center font-medium">
         <div class="flex h-6 w-6 items-center justify-center ">
-          <img src="@/assets/icon4.png" alt="Logo" />
+          <img src="../assets/Icon.png" alt="Logo" />
         </div>
         Lifestats
       </a>
@@ -27,7 +27,3 @@ onMounted(async () => {
     </div>
   </div>
 </template>
-
-<style scoped>
-
-</style>

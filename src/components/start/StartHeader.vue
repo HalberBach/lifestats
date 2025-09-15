@@ -9,7 +9,7 @@ const router = useRouter()
   <div class="flex justify-between items-center pb-4 border- border-b">
     <div class="flex items-center gap-4">
       <div class=" h-6 w-6 items-center justify-center ">
-        <img src="@/assets/icon4.png" alt="Logo" />
+        <img src="../../assets/Icon.png" alt="Logo" />
       </div>
       <h1 class="font-bold text-2xl">Lifestats</h1>
     </div>
