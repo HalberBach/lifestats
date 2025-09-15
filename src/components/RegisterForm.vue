@@ -41,6 +41,19 @@ function validateInput() {
   }
 }
 
+async function loginWithGoogle() {
+  const { error } = await supabase.auth.signInWithOAuth({
+    provider: 'google',
+    options: {
+      redirectTo: `${window.location.origin}/home`
+    }
+  })
+  if (error) {
+    showEmailError.value = true
+    emailError.value = "Error logging in with Google."
+  }
+}
+
 // Handle registration with email and password
 async function registerWithEmailAndPassword() {
   validateInput()
@@ -55,7 +68,7 @@ async function registerWithEmailAndPassword() {
       showRegisterError.value = true
     } else {
       showRegisterError.value = false
-      await router.push('/login')
+      await router.push('/email-verify')
     }
   }
 }
@@ -102,7 +115,7 @@ async function registerWithEmailAndPassword() {
                 Or continue with
               </span>
         </div>
-        <Button variant="outline" class="w-full">
+        <Button type="button" @click="loginWithGoogle" variant="outline" class="w-full">
           Login with Google
         </Button>
       </div>
