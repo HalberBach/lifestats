@@ -16,11 +16,14 @@ const router = useRouter()
     </div>
     <div class="w-full flex justify-center mb-10">
       <!-- Desktop -->
-      <img
-          src="../../assets/preview.png"
-          alt="Preview Desktop"
-          class="hidden sm:block border rounded-lg mx-auto object-contain shadow-lg shadow-gray-400"
-      />
+      <AspectRatio ratio="16/9" class="w-full sm:max-w-md md:max-w-3xl lg:max-w-4xl xl:max-w-6xl">
+        <img
+            src="../../assets/preview.png"
+            alt="Preview"
+            class="hidden sm:block border rounded-lg mx-auto shadow-lg shadow-gray-400"
+        />
+      </AspectRatio>
+
       <!-- Mobile -->
       <img
           src="../../assets/preview_mobile.png"
@@ -30,7 +33,3 @@ const router = useRouter()
     </div>
   </div>
 </template>
-
-<style scoped>
-
-</style>
