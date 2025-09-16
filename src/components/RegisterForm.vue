@@ -6,6 +6,7 @@ import { Label } from '@/components/ui/label'
 import {supabase} from "../lib/supabaseClient.ts";
 import {useRouter} from "vue-router";
 import {ref} from "vue";
+import {track} from "@vercel/analytics";
 
 const router = useRouter()
 const email = ref<string>('')
@@ -42,6 +43,7 @@ function validateInput() {
 }
 
 async function loginWithGoogle() {
+  track('Signup');
   const { error } = await supabase.auth.signInWithOAuth({
     provider: 'google',
     options: {
@@ -56,6 +58,7 @@ async function loginWithGoogle() {
 
 // Handle registration with email and password
 async function registerWithEmailAndPassword() {
+  track('Signup');
   validateInput()
   if (!showEmailError.value && !showPasswordError.value) {
     let { data, error } = await supabase.auth.signUp({

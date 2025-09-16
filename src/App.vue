@@ -7,6 +7,7 @@ import {onMounted, ref} from "vue";
 import {useUserStore} from "@/store/userstore.ts";
 import {Separator} from "@/components/ui/separator";
 import {useColorMode} from "@vueuse/core";
+import {Analytics} from "@vercel/analytics/vue";
 
 const color = useColorMode();
 const route = useRoute();
@@ -27,6 +28,7 @@ onMounted(() => {
 </script>
 
 <template>
+  <Analytics />
   <SidebarProvider :default-open="false">
     <TheSidebar v-if="!route.meta.publicPage"/>
     <main class="flex flex-col h-screen w-full">
