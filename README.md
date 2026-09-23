@@ -1,5 +1,16 @@
-# Vue 3 + TypeScript + Vite
+# LifeStats
 
-This template should help get you started developing with Vue 3 and TypeScript in Vite. The template uses Vue 3 `<script setup>` SFCs, check out the [script setup docs](https://v3.vuejs.org/api/sfc-script-setup.html#sfc-script-setup) to learn more.
+LifeStats is a personal time-tracking web-app that helps you understand how you spend your time.
 
-Learn more about the recommended Project Setup and IDE Support in the [Vue Docs TypeScript Guide](https://vuejs.org/guide/typescript/overview.html#project-setup).
+Create custom categories, track your daily activities, and view your time usage through simple dashboards and charts. The goal is to make daily routines and habits easier to understand.
+
+The project was a learning project meant to work with different Fronted- and Backendtechnologies
+
+## Tech Stack
+
+- Vue 3
+- TypeScript
+- Vite
+- Pinia
+- Supabase
+- Tailwind CSS
